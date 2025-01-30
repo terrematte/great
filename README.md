@@ -1,6 +1,6 @@
-# Great 
+# GREAT 
 
-Great is a exercise generator for propositional conjectures.
+GREAT is great a exercise generator for propositional conjectures to proofs on natural deduction, and refutations tasks.
 
 
 # How to execute
