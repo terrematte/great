@@ -1,6 +1,11 @@
 <?php
 
-ini_set('max_execution_time', 5000); 
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
+header('Content-Type: application/json');
+
+ini_set('max_execution_time', 5000);
 
 require_once 'formulae/Atom.php';
 require_once 'formulae/Node.php';
@@ -22,36 +27,30 @@ function follows($premises, $conclusion) {
 }
 
 function relevant($premises, $conclusion) {
-	$premise_atoms = array();
-	$conclusion_atoms = array();
-	$numRelevPrems=0;
-	$pattern = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/'; //Regular expression to check a valid "variable name"
-	
-	preg_match_all($pattern, $conclusion, $conclusion_atoms); 
+    $premise_atoms = array();
+    $conclusion_atoms = array();
+    $numRelevPrems = 0;
+    $pattern = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/'; // Regular expression to check valid "variable name"
+    
+    preg_match_all($pattern, $conclusion, $conclusion_atoms); 
 
-	
-	foreach ($premises as $key => $premise ) {
-		$isRelevant=false;
-		
-		preg_match_all($pattern, $premise, $premise_atoms); 
-		
-		foreach ($premise_atoms[0] as $k => $p_atoms) { 
-			
-			if (in_array($p_atoms, $conclusion_atoms[0])) {
-				$isRelevant=true;
-			}	
-		}
-		
-		if ( $isRelevant == true){
-			$numRelevPrems++;
-		}
-	}
+    foreach ($premises as $key => $premise) {
+        $isRelevant = false;
+        
+        preg_match_all($pattern, $premise, $premise_atoms); 
+        
+        foreach ($premise_atoms[0] as $k => $p_atoms) { 
+            if (in_array($p_atoms, $conclusion_atoms[0])) {
+                $isRelevant = true;
+            }    
+        }
+        
+        if ($isRelevant == true) {
+            $numRelevPrems++;
+        }
+    }
 
-	if ($numRelevPrems < sizeof($premises)) {
-		return false;
-	} else {
-		return true;
-	}
+    return $numRelevPrems >= sizeof($premises);
 }
 
 function valid($formula) {
@@ -140,62 +139,44 @@ function generate_exercises($num_valid, $num_invalid, $num_premises, $exercise_i
                    'num_req_valid' => $num_valid,
                    'num_req_invalid' => $num_invalid);
 
-    $stats['num_gen'] = $res['num_gen_valid'] + $res['num_gen_invalid'];
-    $stats['num_discarded'] = $res['num_discarded_valid'] + $res['num_discarded_invalid'] + $res['num_discarded_not_fit'];
-    $stats['num_req'] = $res['num_req_valid'] + $res['num_req_invalid'];
+    // Debug Variables
+    $stats['num_gen'] = $stats['num_gen_valid'] + $stats['num_gen_invalid'];
+    $stats['num_discarded'] = $stats['num_discarded_valid'] + $stats['num_discarded_invalid'] + $stats['num_discarded_not_fit'];
+    $stats['num_req'] = $stats['num_req_valid'] + $stats['num_req_invalid'];
 
     return array('exercises' => $exercises, 'stats' => $stats);
 }
 
 function gen($params) {
     $total = intval($params['num_exercises']);
-
     $cutoff = rand(0, $total);
     $no_superfluous_premises_allowed = false;
     $must_be_relevant = false;
     $premise_conjunction_must_be_contingent = false;
 
-    foreach ($params['restrictions'] as $restr) {
+    // Debug: Check input parameters
+    // error_log("Received parameters: " . json_encode($params));
+
+    foreach ($params['restrictions'] ?? [] as $restr) {
+        // error_log("Processing restriction: $restr");
         if ($restr === 'same_proportion')
             $cutoff = floor($total / 2);
         elseif ($restr === 'no_superfluous_premises_allowed')
             $no_superfluous_premises_allowed = true;
         elseif ($restr === 'must_be_relevant')
             $must_be_relevant = true;
-
         elseif ($restr === 'premise_conjunction_must_be_contingent')
             $premise_conjunction_must_be_contingent = true;
-            
-        elseif ($restr === 'refutable_provable'){
-			$refutable_provable = true;
-			$only_refutable = false; 
-			$only_provable = false;  
-			$num_valid = $cutoff;
-			$num_invalid = $total - $cutoff;
-		}
-        elseif ($restr === 'only_refutable'){
-			$refutable_provable = false;
-			$only_refutable = true; 
-			$only_provable = false;      
-			$num_valid = 0;
-			$num_invalid = $total;
-		}                   
-        elseif ($restr === 'only_provable'){
-			$refutable_provable = false;
-			$only_refutable = false; 
-			$only_provable = true;           
-			$num_valid = $total;
-			$num_invalid = 0;
-		}
     }
 
-   
-
+    $num_valid = $params['num_valid'] ?? 5;
+    $num_invalid = $params['num_invalid'] ?? 5;
 
     $num_premises = $params['num_premises'];
-
-
     $conectives = array();
+
+    // Debug: Check the connectives
+    // error_log("Connectives: " . json_encode($params['conectives']));
 
     foreach ($params['conectives'] as $con) {
         if ($con === 'and')
@@ -210,21 +191,25 @@ function gen($params) {
             array_push($conectives, new Connective("!","not","N",1,0));
     }
 
-    $atoms = array();
+    // Debug: Check if connectives were added correctly
+    // error_log("Connectives after processing: " . json_encode($conectives));
 
+    $atoms = array();
     foreach ($params['atoms'] as $atm) {
         array_push($atoms, new Atom($atm));
     }
+
+    // Debug: Check if atoms are added correctly
+    // error_log("Atoms: " . json_encode($atoms));
 
     $fgenerator = new FormulaGenerator($conectives, $atoms);
 
     $compl_min = intval($params['compl_min']);
     $compl_max = intval($params['compl_max']);
 
-
-
-    return generate_exercises(
-        $num_valid, $num_invalid, $num_premises,
+    // Debug: Check if formula generation is happening
+    $generated_exercises = generate_exercises(
+        $params['num_valid'], $params['num_invalid'], $num_premises,
         function ($exercise) use($no_superfluous_premises_allowed, $must_be_relevant, $premise_conjunction_must_be_contingent) {
             if ($no_superfluous_premises_allowed && has_superfluous_premises($exercise))
                 return false;
@@ -247,13 +232,22 @@ function gen($params) {
 
             return $formula; 
         });
+
+    // Debug: Check generated exercises
+    error_log("Generated exercises: " . json_encode($generated_exercises));
+
+    return $generated_exercises;
 }
 
 set_time_limit(0);
 
-$handle = fopen('php://input','r');
-$jsonInput = fgets($handle);
-$decoded = json_decode($jsonInput,true);
+$jsonInput = file_get_contents('php://input');
+$decoded = json_decode($jsonInput, true);
+
+if ($decoded === null) {
+    echo json_encode(['error' => 'Invalid JSON received']);
+    exit;
+}
 
 $time_a = microtime(true);
 
@@ -263,8 +257,8 @@ $time_b = microtime(true);
 
 $response = array();
 
-$response['exercises'] = $ex['exercises'];
-$response['stats'] = $ex['stats'];
+$response['exercises'] = $ex['exercises'] ?? [];
+$response['stats'] = $ex['stats'] ?? [];
 $response['request'] = $decoded;
 
 $response['time'] = $time_b - $time_a;
@@ -272,4 +266,3 @@ $response['time'] = $time_b - $time_a;
 die(json_encode($response));
 
 ?>
-
