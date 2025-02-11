@@ -167,6 +167,27 @@ function gen($params) {
             $must_be_relevant = true;
         elseif ($restr === 'premise_conjunction_must_be_contingent')
             $premise_conjunction_must_be_contingent = true;
+        elseif ($restr === 'refutable_provable'){
+			$refutable_provable = true;
+			$only_refutable = false; 
+			$only_provable = false;  
+			$num_valid = $cutoff;
+			$num_invalid = $total - $cutoff;
+		}
+        elseif ($restr === 'only_refutable'){
+			$refutable_provable = false;
+			$only_refutable = true; 
+			$only_provable = false;      
+			$num_valid = 0;
+			$num_invalid = $total;
+		}                   
+        elseif ($restr === 'only_provable'){
+			$refutable_provable = false;
+			$only_refutable = false; 
+			$only_provable = true;           
+			$num_valid = $total;
+			$num_invalid = 0;
+		}
     }
 
     $num_valid = $params['num_valid'] ?? 5;
@@ -209,7 +230,7 @@ function gen($params) {
 
     // Debug: Check if formula generation is happening
     $generated_exercises = generate_exercises(
-        $params['num_valid'], $params['num_invalid'], $num_premises,
+        $num_valid, $num_invalid, $num_premises,
         function ($exercise) use($no_superfluous_premises_allowed, $must_be_relevant, $premise_conjunction_must_be_contingent) {
             if ($no_superfluous_premises_allowed && has_superfluous_premises($exercise))
                 return false;
