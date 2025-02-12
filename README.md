@@ -14,31 +14,44 @@
 
 ## Setup Instructions
 
+### 0. **Do it all with a single command**
+```bash
+make
+```
+
+It'll clean all files that will be created, them recompile all the binaries and dependences. And if the Makefile isn't working:
+
 ### 1. **Build the `liblimmat.a` Library**
 
 ```bash
 cd limmat
 CC=gcc ./configure
 make
+cd ..
 ```
 
 ### 2. **Build the `limboole` binary**
-
 ```bash
-cd ../limboole
+cd limboole-0.2
 make
+mv limboole ../limboole
+cd ..
 ```
 
 ### 3. **Start the php server**
 
 ```bash
-cd ..
 php -S 127.0.0.1:8000
+```
+
+## Cleaning unnecessary files
+```bash
+make clean-all
 ```
 
 ## Making Requests
 
-Here's a example request you can use to test the functionalities of the server
+Some scripts with default POST requests can be found at example_requests/, and some of them are:
 
 ### 1. Simple exercises generation request
 ```bash
@@ -62,12 +75,16 @@ Note: It may take a while to execute
 ### 2. Simple conversion of exercises .json to .tex/.pdf
 
 ```bash
-jq -r '.pdf_content' response.json > base64_pdf
+curl -X POST http://127.0.0.1:8000/exporting/export_formula.php \
+     -H "Content-Type: application/json" \
+     --data-binary @exercises.json | jq . > latex_response.json
+
+jq -r '.pdf_content' latex_response.json > base64_pdf
 
 base64 -d base64_pdf > latex.pdf
 ```
 
-And if you want only the .tex content:
+The server compile the .pdf internally and if you want only the .tex content:
 
 ```bash
 jq -r '.tex_content' latex_response.json > response.tex
