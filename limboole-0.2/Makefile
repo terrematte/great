@@ -4,10 +4,10 @@ CFLAGS=-DVERSION=$(VERSION) -Wall -O2 -DNDEBUG
 CFLAGS=-DVERSION=$(VERSION) -Wall -g -fprofile-arcs -ftest-coverage
 CFLAGS=-DVERSION=$(VERSION) -Wall -g
 
-all: limboole testlimboole dimacs2boole
+all: limboole dimacs2boole
 
 limboole: main.o limboole.o ../limmat/liblimmat.a
-	$(CC) $(CFLAGS) -o $@ main.o limboole.o -L../limmat -llimmat
+	$(CC) $(CFLAGS) -o $@ main.o limboole.o -L../limmat -llimmat && mv limboole ../
 testlimboole: test.o limboole.o ../limmat/liblimmat.a
 	$(CC) $(CFLAGS) -o $@ test.o limboole.o -L../limmat -llimmat
 dimacs2boole: dimacs2boole.c
@@ -21,7 +21,7 @@ main.o: main.c
 	$(CC) $(CFLAGS) -c main.c
 
 clean:
-	rm -f limboole testlimboole dimacs2boole
+	rm -f ../limboole testlimboole dimacs2boole
 	rm -f *.o *.a
 	rm -f log/*.log
 	rm -f *.bb *.bbg  *.gcov *.da

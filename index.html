@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Adicionar Exercícios</title>
+    <link rel="stylesheet" type="text/css" href="base.css" />
+    <script src="jquery-1.7.1.min.js"></script>
+    <script src="config.js"></script>
+    <script src="query.js"></script>
+  </head>
+  <body>
+    <form>
+      <h1>Adicionar exercícios</h1>
+      <div class="box">
+        <div class="row">
+          <div class="cell"><div class="name">Código</div></div>
+          <div class="cell">
+            <div class="block">
+              <input type="text" name="code" value="abc"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Exercícios por aluno</div></div>
+          <div class="cell">
+            <div class="block">
+              <input type="text" class="num" name="num_exercises" value="0"/> (<span id="num_total">0</span> ao todo)
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Átomos</div></div>
+          <div class="cell">
+            <div class="block">
+              <input type="text" name="atoms" value="A, B, C, D" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Conectivos</div></div>
+          <div class="cell">
+            <div class="block">
+              <ul>
+                <li><label><input type="checkbox" name="conectives" value="bottom" />Bottom</label></li>
+                <li><label><input type="checkbox" name="conectives" value="top" />Top</label></li>
+                <li><label><input type="checkbox" name="conectives" value="not" checked />Negação</label></li>
+                <li><label><input type="checkbox" name="conectives" value="or" checked />Disjunção</label></li>
+              </ul>
+              <ul>
+                <li><label><input type="checkbox" name="conectives" value="and" checked />Conjunção</label></li>
+                <li><label><input type="checkbox" name="conectives" value="imp" checked />Implicação</label></li>
+                <li><label><input type="checkbox" name="conectives" value="biimp" checked />Bi-implicação</label></li>
+              </ul>
+              <br />
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Complexidade</div></div>
+          <div class="cell">
+            <div class="block">
+
+              <input type="text" class="num" name="compl_min" value="2" /> à
+              <input type="text" class="num" name="compl_max" value="6" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Número de premissas</div></div>
+          <div class="cell">
+            <div class="block">
+              <input type="text" class="num" name="num_premises" value="2" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Restrições</div></div>
+          <div class="cell">
+            <div class="block">
+              <ul>
+                <li>
+                  <label><input type="checkbox" name="restrictions" value="same_proportion" checked />Igual proporção</label>
+                </li>
+                <li>
+                  <label><input type="checkbox" name="restrictions" value="must_be_relevant" checked />Premissas relevantes</label>
+                </li>
+                <li>
+                  <label><input type="checkbox" name="restrictions" value="no_superfluous_premises_allowed" checked />Sem premissas desnecessárias</label>
+                </li>
+                <li>
+                  <label><input type="checkbox" name="restrictions" value="premise_conjunction_must_be_contingent" checked />Conjunção das premissas é contingente</label>
+                </li>
+              </ul>
+
+              <br />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name"></div></div>
+          <div class="cell"><div class="block hover"><a id="send">Enviar</a> <a id="salvar"  style="display: none">Salvar</a></div></div>
+        </div>
+      </div>
+    </form>
+    <div id="side">
+      <div id="menu" style="display: none">
+        <a id="codigo" class="click hover">Código</a>
+        <a id="exerc" class="click hover">Exercícios</a>
+        <a id="detalhes" class="click hover">Detalhes</a>
+      </div>
+      <div id="c_codigo" class="tab">
+        <textarea name="codigo"></textarea>
+      </div>
+      <div id="c_exerc" class="tab"  style="display: none"></div>
+      <div id="c_detalhes" class="tab"  style="display: none"></div>
+    </div>
+  </body>
+</html>

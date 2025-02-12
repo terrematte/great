@@ -20,6 +20,7 @@ should be the identity.
 #include <stdarg.h>
 #include <ctype.h>
 #include <string.h>
+
 /*------------------------------------------------------------------------*/
 
 static void

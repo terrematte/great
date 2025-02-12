@@ -193,6 +193,7 @@ cd $tmp || die "could not change to $tmp"
 rm -f ptrwidth.c
 cat <<EOF > ptrwidth.c
 #include <stdio.h>
+#include <stdlib.h>
 int main (void)
 {
   printf ("%d", (int) sizeof(void*));
