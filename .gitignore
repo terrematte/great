@@ -10,7 +10,7 @@
 /limmat-1.3/liblimmat.a
 /limmat-1.3/limmat
 /limmat-1.3/limmat.o
-/terremate_requests
+#/terremate_requests
 /limmat-1.3/log
 /limboole-0.2/log
-
+/example_requests/*.pdf
