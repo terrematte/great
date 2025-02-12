@@ -255,7 +255,7 @@ function gen($params) {
         });
 
     // Debug: Check generated exercises
-    error_log("Generated exercises: " . json_encode($generated_exercises));
+    // error_log("Generated exercises: " . json_encode($generated_exercises));
 
     return $generated_exercises;
 }
