@@ -38,7 +38,7 @@ php -S 127.0.0.1:8000
 
 ## Making Requests
 
-Here's a example request you use to test the server
+Here's a example request you can use to test the server
 
 ```bash
 curl -X POST http://127.0.0.1:8000/generate.php \
