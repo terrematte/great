@@ -50,7 +50,7 @@ jobs:
           done
           ./example_requests/default_request.sh
 
-          echo $output.json
+          echo output.json
 
       - name: Deploy
         run: |
