@@ -27,4 +27,6 @@
 /example_requests/lib
 /example_requests/*.pdf
 
+/.vscode
+
 limboole
