@@ -5,6 +5,11 @@ EXPORTING_DIR	 	= exporting
 
 all: clean-all build-limmat build-limboole start-server
 
+update-branch: clean-all
+	git add .
+	git commit -m"update branch commit"
+	git push
+
 build-limmat:
 	cd $(LIMMAT_DIR) &&	CC=gcc ./configure && make && cd ..
 

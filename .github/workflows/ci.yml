@@ -3,7 +3,8 @@ name: CI/CD Workflow
 on:
   pull_request:
     branches:
-      - main  # You can change this to your default branch name
+      - main
+      - beta
 
 jobs:
   build:
@@ -16,19 +17,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Adjust based on your project needs
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
+          sudo apt update
+          sudo apt install -y make php gcc
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Adjust if you're using other dependencies
 
       - name: Run tests
         run: |
-          # Replace this with your test command, for example:
-          pytest  # If using pytest for tests
+          echo "Testing..."
 
-      - name: Deploy (optional)
+      - name: Deploy
         run: |
-          # Add your deployment scripts or commands here if needed
           echo "Deploying..."
