@@ -12,6 +12,7 @@ update-branch:
 	git push
 
 setup-dependences:
+	set -x
 	sudo apt update
 	sudo apt install -y make php-cli gcc
 	python -m pip install --upgrade pip
