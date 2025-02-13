@@ -2,8 +2,8 @@
 
 generate-latex: clean-latex
 	./default_request.sh
-	./test_latex_output_treatement.sh
-	./test_latex_conversion.sh
+	./add_json_parameters.sh
+	./convert_json_to_tex.sh
 	$(MAKE) clean-temp-files
 
 clean-temp-files:
