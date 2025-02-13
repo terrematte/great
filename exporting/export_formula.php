@@ -27,13 +27,22 @@ function logAndReturnError($message, $data = null) {
 }
 
 function convertSymbolsToUnicode($text) {
+    // $replacements = [
+    //     '&'     => '∧',
+    //     '|'     => '∨',
+    //     '!'     => '¬',
+    //     '<->'   => '↔',
+    //     '->'    => '→',
+    //     '='     => '≡',
+    // ];
+
     $replacements = [
-        '&'     => '∧',
-        '|'     => '∨',
-        '!'     => '¬',
-        '<->'   => '↔',
-        '->'    => '→',
-        '='     => '≡',
+        '&'     => '\u2227',  // AND (∧)
+        '|'     => '\u2228',  // OR (∨)
+        '!'     => '\u00AC',  // NOT (¬)
+        '<->'   => '\u21D4',  // Logical biconditional (↔)
+        '->'    => '\u2192',  // Logical implication (→)
+        '='     => '\u2261',  // Identical (≡)
     ];
 
     if ($text[0] === '(' && $text[strlen($text) - 1] === ')') {
