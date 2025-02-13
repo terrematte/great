@@ -11,6 +11,12 @@ update-branch:
 	git commit -m "update branch commit"
 	git push
 
+setup-dependences:
+	sudo apt update
+	sudo apt install -y make php-cli gcc
+	python -m pip install --upgrade pip
+	pip install -r requirements.txt
+
 build-limmat:
 	cd $(LIMMAT_DIR) &&	CC=gcc ./configure && make && cd ..
 
