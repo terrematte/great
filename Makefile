@@ -12,7 +12,6 @@ update-branch:
 	git push
 
 install-dependences:
-	set -x
 	sudo apt update
 	sudo apt install -y make gcc
 	sudo apt install -y php-cli php-mbstring php-xml php-curl php-zip php-bcmath

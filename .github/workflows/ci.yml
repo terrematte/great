@@ -25,15 +25,14 @@ jobs:
 
       - name: Build Dependences
         run: |
-          set -x
           make clean-all
           make build-limmat
           make build-limboole
-          # Can't use make directly...
+          # Can't use make all directly...
           # Probably because git actions isn't exactly a terminal. 
+      
       - name: Setup Server
         run: |
-          set -x
           export TERM=xterm
           nohup php -S 127.0.0.1:8000 > server.log 2>&1 &
 
@@ -51,11 +50,13 @@ jobs:
             exit 1
           fi
 
-          echo "Okay: Connection Success"
+          echo "OK: Server is online!"
           
-          ./example_requests/default_request.sh
+          # ./example_requests/default_request.sh
 
-          cat output.json
+          # cat output.json
+
+          python3 your_script.py
 
       - name: Deploy
         run: |
