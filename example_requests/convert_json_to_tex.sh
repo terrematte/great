@@ -10,15 +10,16 @@ if jq -e 'has("compiled_files")' latex_response.json > /dev/null; then
         echo "$pdf_data" | base64 --decode > "$PDF_NAME"
         echo "Decoded PDF saved as: $PDF_NAME"
     done
-    # rm -f output.json
+    rm -f output.json
 else
     echo "Error: 'compiled_files' is missing in the response."
 fi
 
-if jq -e 'has("source_codes")' latex_response.json > /dev/null; then
-    jq -r '.source_codes' latex_response.json > response.tex
-else
-    echo "Error: 'source_codes' is missing in the response."
-fi
+# Dont need the .tex for now
+# if jq -e 'has("source_codes")' latex_response.json > /dev/null; then
+#     jq -r '.source_codes' latex_response.json > response.tex
+# else
+#     echo "Error: 'source_codes' is missing in the response."
+# fi
 
-# rm -f latex_response.json
+rm -f latex_response.json

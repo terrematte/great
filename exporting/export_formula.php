@@ -145,12 +145,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $listof_compiled_pdfs = [];
         $listof_source_code_of_file = [];
 
+        $valid_exercises = $exercises['valid'] ?? [];
+        $num_students = count($list_students);
+        $exercises_for_student = [];
+
+        if ($num_students > 0) {
+            $exercises_per_student  = intdiv(count($valid_exercises), $num_students);
+            $remaining_exercises    = count($valid_exercises) % $num_students; 
+
+            $distributed_exercises  = array_slice($valid_exercises, 0, $exercises_per_student * $num_students); // Keep only divisible exercises
+            $chunked_exercises      = array_chunk($distributed_exercises, $exercises_per_student);
+
+            foreach ($list_students as $index => $student) {
+                $exercises_for_student[$student] = ['valid' => $chunked_exercises[$index] ?? []];
+            }
+        } else {
+            $exercises_for_student[""] = ['valid' => $valid_exercises];
+        }
 
         foreach ($list_students as $student) {
             if ($convert_to_this_type === "tex") {
                 // error_log("tex Conversion Type for student: " . $student);
                 
-                $source_code_of_file = jsonToTex($exercises, $course, $professor, $semester, $code, $registration, $student, $graduate, $titulo);
+                $source_code_of_file = jsonToTex($exercises_for_student[$student], $course, $professor, $semester, $code, $registration, $student, $graduate, $titulo);
                 $listof_source_code_of_file[] = $source_code_of_file;
                 
                 $source_code_file_name = 'exercises_' . $student . '.tex';

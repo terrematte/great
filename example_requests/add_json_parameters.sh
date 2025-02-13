@@ -1,9 +1,9 @@
 echo '{
     "convert_to": "tex",
     "parameters": {
-        "list_students": ["Mario", "Luigy"],
-        "professor": "John Smith the Third",
-        "course": "Introduction to Logic",
+        "list_students": ["Mario", "Luigy", "Wario"],
+        "professor": "Bowser",
+        "course": "Mario Kart Introduction",
         "semester": "2025.1",
         "code": "IMD1324",
         "graduate": "Tecnologia da Informação",
