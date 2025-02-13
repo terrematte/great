@@ -17,7 +17,7 @@ fi
 
 # Dont need the .tex for now
 # if jq -e 'has("source_codes")' latex_response.json > /dev/null; then
-#     jq -r '.source_codes' latex_response.json > response.tex
+#     jq -r '.source_codes' latex_response.json > exercises_to_latex.tex
 # else
 #     echo "Error: 'source_codes' is missing in the response."
 # fi
