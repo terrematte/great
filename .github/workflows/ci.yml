@@ -24,6 +24,12 @@ jobs:
           sudo apt update
           sudo apt install -y make php gcc
           python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Setup Server
+        run: |
+          cd ~
+          make
 
       - name: Run tests
         run: |
