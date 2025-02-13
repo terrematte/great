@@ -2,7 +2,7 @@ LIMMAT_DIR 			= limmat
 LIMBOOLE_DIR 		= limboole-0.2
 EXAMPLEREQUEST_DIR 	= example_requests
 EXPORTING_DIR	 	= exporting
-#potato
+#potatoalan
 all: clean-all build-limmat build-limboole start-server
 
 update-main: 
