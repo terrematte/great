@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-$valid_types    = ['tex'];
+$valid_types    = ['tex', 'utf8'];
 
 function logAndReturnError($message, $data = null) {
     $logFile = "error_log.txt";
@@ -26,7 +26,47 @@ function logAndReturnError($message, $data = null) {
     );
 }
 
-function escapeLogicalSymbols($text) {
+function convertSymbolsToUnicode($text) {
+    // $replacements = [
+    //     '&'     => '∧',
+    //     '|'     => '∨',
+    //     '!'     => '¬',
+    //     '<->'   => '↔',
+    //     '->'    => '→',
+    //     '='     => '≡',
+    // ];
+
+    $replacements = [
+        '&'     => '\u2227',  // AND (∧)
+        '|'     => '\u2228',  // OR (∨)
+        '!'     => '\u00AC',  // NOT (¬)
+        '<->'   => '\u21D4',  // Logical biconditional (↔)
+        '->'    => '\u2192',  // Logical implication (→)
+        '='     => '\u2261',  // Identical (≡)
+    ];
+
+    if ($text[0] === '(' && $text[strlen($text) - 1] === ')') {
+        $text = substr($text, 1, -1);
+    }
+
+    return strtr($text, $replacements);
+}
+
+function jsonToUtf8($exercises) {
+    $output = "Lista de Exercicios\n\n";
+
+    foreach ($exercises['valid'] as $index => $exercise) {
+        $output .= "Exercicio " . ($index + 1) . ":\n";
+        foreach ($exercise['premises'] as $i => $premise) {
+            $output .= "  Premissa " . ($i + 1) . ": " . convertSymbolsToUnicode($premise) . "\n";
+        }
+        $output .= "  Conclusao: " . convertSymbolsToUnicode($exercise['conclusion']) . "\n\n";
+    }
+
+    return $output;
+}
+
+function convertSymbolsToLatex($text) {
     $replacements = [
         '&'     => '\\land',
         '|'     => '\\lor',
@@ -95,9 +135,9 @@ function jsonToTex($exercises, $course, $professor, $semester, $code, $registrat
     foreach (array_merge($exercises['valid']) as $exercise) {
         $latexContent .= "\\vspace{1cm}";
         $latexContent .= "\\problem ";
-        $latexContent .= "Verifique se $ " . escapeLogicalSymbols($exercise['conclusion']) . " $ pode ser concluído partindo das premisas: \n\n";
+        $latexContent .= "Verifique se $ " . convertSymbolsToLatex($exercise['conclusion']) . " $ pode ser concluído partindo das premisas: \n\n";
         foreach ($exercise['premises'] as $premise) {
-            $latexContent .= "\\subproblem $ " . escapeLogicalSymbols($premise) . " $\n\n";
+            $latexContent .= "\\subproblem $ " . convertSymbolsToLatex($premise) . " $\n\n";
         }
     }
 
@@ -132,7 +172,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $semester     = $parameters['semester'] ?? "2025.1";
         $code         = $parameters['code'] ?? "IMD0000";
         $registration = $parameters['registration'] ?? "";
+        
         $list_students= $parameters['list_students'] ?? [""];
+        if (!is_array($list_students) || empty($list_students) || $list_students === [""]) {
+            $list_students = [" "];
+        } // Protection against random values for parameter
+
         $graduate     = $parameters['graduate'] ?? "Bacharel em Tecnologia da Informação";
         $titulo       = $parameters['titulo'] ?? "Insira o nome aqui";
 
@@ -164,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         foreach ($list_students as $student) {
-            if ($convert_to_this_type === "tex") {
+            if      ($convert_to_this_type === "tex") {
                 // error_log("tex Conversion Type for student: " . $student);
                 
                 $source_code_of_file = jsonToTex($exercises_for_student[$student], $course, $professor, $semester, $code, $registration, $student, $graduate, $titulo);
@@ -190,6 +235,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $listof_compiled_pdfs[] = null;
                 }
             }
+            elseif  ($convert_to_this_type === "utf8") {
+                $listof_source_code_of_file[] = jsonToUtf8($exercises_for_student[$student]);;
+            }
         }        
 
         if (!empty($listof_compiled_pdfs)) {
@@ -199,7 +247,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'compiled_files'    => $listof_compiled_pdfs,
                 'source_codes'      => $listof_source_code_of_file
             ]);
-        } else {
+        }   
+        elseif (!empty($listof_source_code_of_file)) {
+            echo json_encode([
+                'status'            => 'success',
+                'message'           => 'Source codes generated',
+                'compiled_files'    => [],
+                'source_codes'      => $listof_source_code_of_file
+            ]);
+        }   
+        else {
             echo json_encode([
                 'status'    => 'error',
                 'message'   => 'Compiled file generation failed for all students'
@@ -211,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // error_log("Cleanup");
-    $command = "make -C " . escapeshellarg(dirname(__FILE__)) . " clean-latex";
+    $command = "make -C " . escapeshellarg(dirname(__FILE__)) . " clean";
     exec($command, $_, $ret_val);
 
 } else {
