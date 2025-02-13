@@ -21,12 +21,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          set -x
           make setup-dependences
 
       - name: Setup Server
         run: |
-          make
+          set -x
+          make clean-all
+          make build-limmat
+          make build-limboole
+          export TERM=xterm
+          nohup php -S 127.0.0.1:8000 > server.log 2>&1 &
 
       - name: Run tests
         run: |
