@@ -33,13 +33,23 @@ jobs:
           # Probably because git actions isn't exactly a terminal. 
       - name: Setup Server
         run: |
+          set -x
           export TERM=xterm
           nohup php -S 127.0.0.1:8000 > server.log 2>&1 &
+          sleep 3
 
       - name: Run tests
         run: |
-          echo "Testing..."
+          set -x
+          echo "Testing connection..."
+          php -v
+          for i in {1..10}; do
+            curl -s 127.0.0.1:8000 > /dev/null && break
+            echo "Waiting for server..."
+            sleep 1
+          done
           ./example_requests/default_request.sh
+
           echo $output.json
 
       - name: Deploy
