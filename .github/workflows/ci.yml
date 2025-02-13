@@ -28,7 +28,7 @@ jobs:
 
       - name: Setup Server
         run: |
-          cd ~
+          ls
           make
 
       - name: Run tests
