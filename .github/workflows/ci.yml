@@ -21,20 +21,26 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make setup-dependences
+          make install-dependences
 
-      - name: Setup Server
+      - name: Build Dependences
         run: |
           set -x
           make clean-all
           make build-limmat
           make build-limboole
+          # Can't use make directly...
+          # Probably because git actions isn't exactly a terminal. 
+      - name: Setup Server
+        run: |
           export TERM=xterm
           nohup php -S 127.0.0.1:8000 > server.log 2>&1 &
 
       - name: Run tests
         run: |
           echo "Testing..."
+          ./example_requests/default_request.sh
+          echo $output.json
 
       - name: Deploy
         run: |
