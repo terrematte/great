@@ -14,7 +14,8 @@ update-branch:
 install-dependences:
 	set -x
 	sudo apt update
-	sudo apt install -y make php-cli gcc
+	sudo apt install -y make gcc
+	sudo apt install -y php-cli php-mbstring php-xml php-curl php-zip php-bcmath
 	python -m pip install --upgrade pip
 	pip install -r requirements.txt
 
