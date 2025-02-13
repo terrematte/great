@@ -56,7 +56,7 @@ jobs:
 
           # cat output.json
 
-          python3 your_script.py
+          python3 optimization_test.py
 
       - name: Deploy
         run: |
