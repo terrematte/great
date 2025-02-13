@@ -11,7 +11,7 @@ update-branch:
 	git commit -m "update branch commit"
 	git push
 
-setup-dependences:
+install-dependences:
 	set -x
 	sudo apt update
 	sudo apt install -y make php-cli gcc
