@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Configure env
+        run: |
+          set -x
+          
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -28,7 +32,6 @@ jobs:
 
       - name: Setup Server
         run: |
-          ls
           make
 
       - name: Run tests
