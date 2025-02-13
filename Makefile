@@ -5,18 +5,18 @@ EXPORTING_DIR	 	= exporting
 
 all: clean-all build-limmat build-limboole start-server
 
-update-branch: 
-	make clean-all
-	git add .
-	git commit -m "update branch commit"
-	git push
-
 install-dependences:
 	sudo apt update
 	sudo apt install -y make gcc
 	sudo apt install -y php-cli php-mbstring php-xml php-curl php-zip php-bcmath
 	python -m pip install --upgrade pip
 	pip install -r requirements.txt
+
+update-branch: 
+	make clean-all
+	git add .
+	git commit -m "update branch commit"
+	git push
 
 build-limmat:
 	cd $(LIMMAT_DIR) &&	CC=gcc ./configure && make && cd ..
