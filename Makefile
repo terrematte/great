@@ -2,13 +2,20 @@ LIMMAT_DIR 			= limmat
 LIMBOOLE_DIR 		= limboole-0.2
 EXAMPLEREQUEST_DIR 	= example_requests
 EXPORTING_DIR	 	= exporting
-
+#potato
 all: clean-all build-limmat build-limboole start-server
 
-update-branch: clean-all
+update-main: 
+	git switch main
+	make clean-all
 	git add .
-	git commit -m"update branch commit"
+	git commit -m "update branch commit"
 	git push
+
+pr-beta-main:
+	git switch beta
+	gh pr create --base main --head beta --title "Merge beta into main" --body "Automated pull request from Makefile"
+	git switch main
 
 build-limmat:
 	cd $(LIMMAT_DIR) &&	CC=gcc ./configure && make && cd ..
