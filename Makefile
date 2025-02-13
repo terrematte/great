@@ -15,6 +15,14 @@ update-main:
 pr-beta-main:
 	git switch beta
 	git commit --allow-empty -m "Test empty commit"
+	git push
+
+	PR_URL=$(shell gh pr list --base main --head beta --json url --jq '.[0].url')
+	@if [ ! -z "$(PR_URL)" ]; then \
+	  echo "Closing existing pull request: $(PR_URL)"; \
+	  gh pr close $(PR_URL); \
+	fi
+	
 	gh pr create --base main --head beta --title "Merge beta into main" --body "Automated pull request from Makefile"
 	git switch main
 
