@@ -61,6 +61,7 @@ jobs:
           # cat output.json
 
           python3 .github/workflows/optimization_test.py
+          base64 .github/workflows/data/time_usage.png > .github/workflows/data/time_usage.b64
 
       - name: Upload time usage graph
         uses: actions/upload-artifact@v4
@@ -74,12 +75,15 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const fs = require('fs');
+            const image = fs.readFileSync('.github/workflows/data/time_usage.b64', 'utf8');
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: "![Time Usage Graph](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/time-usage-graph/time_usage.png)"
-            })
+              body: "### 📊 Time Usage Graph\n"
+                    + `<img src="data:image/png;base64,${image}" width="600" />`
+            });
 
       - name: Deploy
         run: |
