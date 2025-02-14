@@ -57,7 +57,7 @@ jobs:
 
           # cat output.json
 
-          python3 optimization_test.py
+          python3 /.github/workflow/optimization_test.py
 
       - name: Deploy
         run: |
