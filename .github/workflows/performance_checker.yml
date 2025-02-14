@@ -10,7 +10,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
+  build_and_evaluation:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,14 +31,13 @@ jobs:
           make clean-all
           make build-limmat
           make build-limboole
-          # Can't use make all directly...
-          # Probably because git actions isn't exactly a terminal. 
 
-  evaluation:
-    needs: build
-    runs-on: ubuntu-latest
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: path/to/artifacts/ # Specify the path where the build artifacts are stored
 
-    steps:
       - name: Setup Server
         run: |
           set -x
@@ -63,15 +62,8 @@ jobs:
           
           # ./example_requests/default_request.sh
 
-          # cat output.json
-
-          ls
-          cd ..
-          ls
-          cd ..
-          ls
           python3 .github/workflows/optimization_test.py
-
+          
       - name: Upload time usage graph
         uses: actions/upload-artifact@v4
         with:
@@ -79,7 +71,7 @@ jobs:
           path: .github/workflows/data/time_usage.png
 
   comment_pr:
-    needs: evaluation
+    needs: build_and_evaluation
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
@@ -88,7 +80,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const artifactId = '${{ needs.build.outputs.artifact-name }}';
+            const artifactId = '${{ needs.build_and_evaluation.outputs.artifact-name }}';
 
             github.rest.issues.createComment({
               owner: context.repo.owner,
