@@ -63,6 +63,13 @@ jobs:
           # ./example_requests/default_request.sh
 
           python3 .github/workflows/optimization_test.py
+
+          cd /.github/workflows
+          ls
+          cd /data/
+          ls
+          cd ..
+          cd ../..
           
       - name: Upload time usage graph
         uses: actions/upload-artifact@v4
