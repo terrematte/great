@@ -1,16 +1,19 @@
 import subprocess
 import json
+import time
 import matplotlib.pyplot as plt
 
 def call_shell_script():
-    result = subprocess.run(['bash', 'example_requests/default_request.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    output = result.stdout
+    start_time = time.time()
+    subprocess.run(['bash', 'example_requests/default_request.sh'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    end_time = time.time()
+
     try:
-        print(output)
-        data = json.loads(output)
-        return data.get('time', None)
-    except json.JSONDecodeError:
-        print("Error decoding JSON")
+        with open("output.json", "r") as file:
+            data = json.load(file)
+            return data.get('time', end_time - start_time)  # Fallback to measured time if 'time' is missing
+    except (json.JSONDecodeError, FileNotFoundError):
+        print("Error: Could not read output.json")
         return None
 
 times = []
@@ -19,8 +22,10 @@ num_calls = 100
 for _ in range(num_calls):
     time = call_shell_script()
     if time is not None:
+        print(f"Time taken: {time} seconds")
         times.append(time)
     else:
+        print("Error: No valid time data")
         times.append(0)
 
 plt.figure(figsize=(10, 6))
