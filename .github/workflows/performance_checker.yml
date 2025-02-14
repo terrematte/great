@@ -65,6 +65,7 @@ jobs:
 
           # cat output.json
 
+          ls
           python3 .github/workflows/optimization_test.py
 
       - name: Upload time usage graph
