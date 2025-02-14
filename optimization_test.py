@@ -34,4 +34,7 @@ plt.title('Time Taken by default_request.sh')
 plt.xlabel('Call Number')
 plt.ylabel('Time (seconds)')
 plt.grid(True)
-plt.show()
+
+plt.savefig("/.github/workflows/data/time_usage.png")
+
+print("Plot saved as time_usage.png")
