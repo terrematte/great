@@ -1,4 +1,4 @@
-name: Performance Evaluation
+name: perf-evaluation
 
 on:
   push:
@@ -68,18 +68,7 @@ jobs:
           name: time-usage-graph
           path: .github/workflows/data/time_usage.png
 
-      - name: Upload time usage graph to GitHub Pages
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          mkdir -p gh-pages
-          cp .github/workflows/data/time_usage.png gh-pages/
-          git checkout --orphan gh-pages
-          git add gh-pages/time_usage.png
-          git commit -m "Upload time usage graph"
-          git push -f origin gh-pages
-
-      - name: Comment on PR with graph
+      - name: Comment on PR with graph artifact
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
         with:
@@ -90,9 +79,9 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
               body: "### 📊 Time Usage Graph\n"
-                    + "![Time Usage Graph](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/time_usage.png)"
+                    + "You can download the graph artifact here: "
+                    + "[Time Usage Graph Artifact](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/time-usage-graph)"
             });
-
 
       - name: Deploy
         run: |
