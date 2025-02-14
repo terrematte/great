@@ -74,7 +74,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const artifactId = '${{ needs.build_and_evaluation.outputs.artifact-name }}';
+            set -x
+            const artifactId = "time-usage-graph"
 
             github.rest.issues.createComment({
               owner: context.repo.owner,
