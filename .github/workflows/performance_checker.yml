@@ -80,7 +80,7 @@ jobs:
               issue_number: context.payload.pull_request.number,
               body: "### 📊 Time Usage Graph\n"
                     + "You can download the graph artifact here: "
-                    + "[Time Usage Graph Artifact](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts/$(echo ${{ steps.upload.outputs.artifact-name }}))"
+                    + "[Time Usage Graph Artifact](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts/${{ steps.upload.outputs.artifact-name }})"
             });
 
       - name: Deploy
