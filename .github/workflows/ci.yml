@@ -61,7 +61,6 @@ jobs:
           # cat output.json
 
           python3 .github/workflows/optimization_test.py
-          base64 .github/workflows/data/time_usage.png > .github/workflows/data/time_usage.b64
 
       - name: Upload time usage graph
         uses: actions/upload-artifact@v4
@@ -69,20 +68,29 @@ jobs:
           name: time-usage-graph
           path: .github/workflows/data/time_usage.png
 
+      - name: Upload time usage graph to GitHub Pages
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p public
+          cp .github/workflows/data/time_usage.png public/
+          git checkout --orphan gh-pages
+          git add public/time_usage.png
+          git commit -m "Upload time usage graph"
+          git push -f origin gh-pages
+
       - name: Comment on PR with graph
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const image = fs.readFileSync('.github/workflows/data/time_usage.b64', 'utf8');
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
               body: "### 📊 Time Usage Graph\n"
-                    + `<img src="data:image/png;base64,${image}" width="600" />`
+                    + "![Time Usage Graph](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/public/time_usage.png)"
             });
 
       - name: Deploy
