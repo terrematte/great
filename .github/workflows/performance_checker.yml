@@ -73,7 +73,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run: |
+          script: |
             const artifactId = '${{ steps.upload-artifact.outputs.artifact-name }}';
 
             github.rest.issues.createComment({
