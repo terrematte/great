@@ -64,7 +64,7 @@ jobs:
           name: time-usage-graph
           path: .github/workflows/data/time_usage.png
 
-  comment_pr:
+  check_pf_and_comment:
     needs: build_and_evaluation
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
@@ -74,13 +74,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const artifactId = "time-usage-graph"
-
-            github.rest.issues.createComment({
+            const artifactName = "time-usage-graph";
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
               owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
-              body: "### 📊 Time Usage Graph\n"
-                    + "You can download the graph artifact here: "
-                    + `[Time Usage Graph Artifact](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts/${artifactId})`
+              repo: context.repo.repo
             });
+            const artifact = artifacts.data.artifacts.find(a => a.name === artifactName);
+            if (artifact) {
+              const artifactId = artifact.id;
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: "### 📊 Time Usage Graph\n"
+                      + "You can download the graph artifact here: "
+                      + `[Time Usage Graph Artifact](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts/${artifactId})`
+              });
+            } else {
+              console.log("Error: Artifact not found.");
+            }
+
