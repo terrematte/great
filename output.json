@@ -1,0 +1,158 @@
+{
+  "exercises": {
+    "valid": [
+      {
+        "premises": [
+          "( Q & ( Q | P ) )",
+          "( ( ( Q | ( P & Q ) ) | P ) | ( Q | Q ) )",
+          "( Q & ( P & P ) )"
+        ],
+        "conclusion": "( ( Q | P ) | ( Q & Q ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( P & ( P & P ) )",
+          "( P | ( Q & ( ( P | P ) & P ) ) )",
+          "( Q | ( ( P | Q ) & ( Q & P ) ) )"
+        ],
+        "conclusion": "( ( ( P & Q ) & P ) | ( Q | Q ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( ( Q & Q ) | Q )",
+          "( ( ( ( Q & P ) & P ) & Q ) | ( P & P ) )",
+          "( ( Q | ( P & ( Q | Q ) ) ) & ( Q | Q ) )"
+        ],
+        "conclusion": "( ( ( Q | Q ) | ( Q | P ) ) | ( Q | P ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( ( ( P | ( Q & Q ) ) & Q ) & P )",
+          "( ( ( P | Q ) | P ) | ( Q & Q ) )",
+          "( ( ( P | P ) & ( Q | Q ) ) & ( Q | Q ) )"
+        ],
+        "conclusion": "( ( Q | ( ( P | Q ) | P ) ) & ( Q & P ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( ( Q & P ) | Q )",
+          "( ( P & P ) | ( P & P ) )",
+          "( Q | ( P & ( P | ( P & P ) ) ) )"
+        ],
+        "conclusion": "( P & ( Q | Q ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( Q | ( ( P & ( ( P & Q ) & P ) ) & Q ) )",
+          "( ( Q & Q ) | Q )",
+          "( ( ( Q & P ) & ( Q | P ) ) & ( P & Q ) )"
+        ],
+        "conclusion": "( ( P & ( Q & ( P | ( P | Q ) ) ) ) & P )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( Q & ( Q | Q ) )",
+          "( ( Q & Q ) & P )",
+          "( ( P | P ) | ( Q | P ) )"
+        ],
+        "conclusion": "( ( P & ( P | P ) ) | Q )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( ( ( Q | Q ) & ( P & P ) ) & ( P & Q ) )",
+          "( ( P | P ) & P )",
+          "( Q | ( ( Q & Q ) & ( P | Q ) ) )"
+        ],
+        "conclusion": "( Q | ( P | Q ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( ( Q & Q ) & Q )",
+          "( ( ( Q & Q ) & ( Q | P ) ) & Q )",
+          "( ( ( Q & P ) | Q ) | ( P | P ) )"
+        ],
+        "conclusion": "( Q | ( ( P | P ) & ( Q & P ) ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( ( ( Q | Q ) | ( P | P ) ) | ( P | P ) )",
+          "( ( Q & Q ) | Q )",
+          "( Q & ( ( Q | ( Q & Q ) ) & Q ) )"
+        ],
+        "conclusion": "( ( ( ( Q & Q ) & Q ) & Q ) | ( Q | Q ) )",
+        "is_valid": true
+      },
+      {
+        "premises": [
+          "( P & ( P & P ) )",
+          "( ( ( Q | Q ) | Q ) | ( P & P ) )",
+          "( ( Q & P ) | ( Q | P ) )"
+        ],
+        "conclusion": "( P & ( ( ( Q | P ) & P ) | ( Q | Q ) ) )",
+        "is_valid": true
+      }
+    ],
+    "invalid": [],
+    "discarded_valid": [],
+    "discarded_invalid": [
+      {
+        "premises": [
+          "( ( ( ( Q | P ) & Q ) & Q ) & ( Q & Q ) )",
+          "( ( ( ( P | Q ) | Q ) & P ) | ( Q | P ) )",
+          "( ( Q & ( Q | Q ) ) | ( P & Q ) )"
+        ],
+        "conclusion": "( ( P | ( P & Q ) ) & P )",
+        "is_valid": false
+      },
+      {
+        "premises": [
+          "( ( Q & Q ) | P )",
+          "( ( P | ( Q & ( Q | Q ) ) ) | P )",
+          "( P | ( Q & Q ) )"
+        ],
+        "conclusion": "( ( Q | ( P & ( Q & Q ) ) ) & ( P | P ) )",
+        "is_valid": false
+      }
+    ],
+    "discarded_not_fit": []
+  },
+  "stats": {
+    "num_gen_valid": 11,
+    "num_gen_invalid": 0,
+    "num_discarded_valid": 0,
+    "num_discarded_invalid": 2,
+    "num_discarded_not_fit": 0,
+    "num_req_valid": 11,
+    "num_req_invalid": 0,
+    "num_gen": 11,
+    "num_discarded": 2,
+    "num_req": 11
+  },
+  "request": {
+    "num_students": 3,
+    "num_exercises": 11,
+    "num_premises": 3,
+    "conectives": [
+      "and",
+      "or"
+    ],
+    "atoms": [
+      "P",
+      "Q"
+    ],
+    "compl_min": 2,
+    "compl_max": 5,
+    "num_valid": 11,
+    "num_invalid": 0
+  },
+  "time": 0.42577195167541504
+}

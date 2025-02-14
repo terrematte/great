@@ -29,4 +29,6 @@
 
 /.vscode
 
+/.github/workflows/data/*.png
+
 limboole

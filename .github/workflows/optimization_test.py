@@ -17,7 +17,7 @@ def call_shell_script():
         return None
 
 times = []
-num_calls = 100
+num_calls = 10
 
 for _ in range(num_calls):
     time_taken = call_shell_script()
@@ -35,6 +35,6 @@ plt.xlabel('Call Number')
 plt.ylabel('Time (seconds)')
 plt.grid(True)
 
-plt.savefig("/.github/workflows/data/time_usage.png")
+plt.savefig(".github/workflows/data/time_usage.png")
 
 print("Plot saved as time_usage.png")
