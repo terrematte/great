@@ -1,11 +1,11 @@
 name: perf-evaluation
 
 on:
-  push:
-    branches:
-      - main
-      - beta
-      - stable-pr-branch
+  # push:
+  #   branches:
+  #     - main
+  #     - beta
+  #     - stable-pr-branch
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -74,7 +74,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            set -x
             const artifactId = "time-usage-graph"
 
             github.rest.issues.createComment({
