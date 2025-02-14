@@ -21,7 +21,7 @@ def call_shell_script():
         return None
 
 times = []
-num_calls = 1000
+num_calls = 100
 
 for _ in range(num_calls):
     time_taken = call_shell_script()
