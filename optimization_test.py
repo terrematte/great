@@ -3,7 +3,7 @@ import json
 import matplotlib.pyplot as plt
 
 def call_shell_script():
-    result = subprocess.run(['bash', 'example_requests/default_request.sh'], stdout=subprocess.PIPE)
+    result = subprocess.run(['bash', 'example_requests/default_request.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output = result.stdout.decode('utf-8')
     try:
         data = json.loads(output)
