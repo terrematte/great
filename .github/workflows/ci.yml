@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - beta
+      - stable-pr-branch
   pull_request:
     types: [opened, synchronize, reopened]
 
