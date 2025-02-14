@@ -20,10 +20,10 @@ times = []
 num_calls = 100
 
 for _ in range(num_calls):
-    time = call_shell_script()
-    if time is not None:
-        print(f"Time taken: {time} seconds")
-        times.append(time)
+    time_taken = call_shell_script()
+    if time_taken is not None:
+        print(f"Time taken: {time_taken} seconds")
+        times.append(time_taken)
     else:
         print("Error: No valid time data")
         times.append(0)
