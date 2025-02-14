@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - beta
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -64,6 +66,19 @@ jobs:
         with:
           name: time-usage-graph
           path: .github/workflows/data/time_usage.png
+
+      - name: Comment on PR with graph
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: "![Time Usage Graph](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/time-usage-graph/time_usage.png)"
+            })
 
       - name: Deploy
         run: |
