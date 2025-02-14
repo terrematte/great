@@ -73,14 +73,16 @@ jobs:
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
+          run: |
+            const artifactId = '${{ steps.upload-artifact.outputs.artifact-name }}';
+
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
               body: "### 📊 Time Usage Graph\n"
                     + "You can download the graph artifact here: "
-                    + "[Time Usage Graph Artifact](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts/0)"
+                    + `[Time Usage Graph Artifact](https://github.com/${{ github.repository }}/suites/${{ github.run_id }}/artifacts/${artifactId})`
             });
 
       - name: Deploy
