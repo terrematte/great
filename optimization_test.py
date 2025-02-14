@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def call_shell_script():
     result = subprocess.run(['bash', 'example_requests/default_request.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    output = result.stdout.decode('utf-8')
+    output = result.stdout
     try:
         print(output)
         data = json.loads(output)

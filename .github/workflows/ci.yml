@@ -33,6 +33,7 @@ jobs:
       
       - name: Setup Server
         run: |
+          set -x
           export TERM=xterm
           nohup php -S 127.0.0.1:8000 > server.log 2>&1 &
 
