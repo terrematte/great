@@ -1,7 +1,11 @@
 import subprocess
 import json
 import time
+import os
 import matplotlib.pyplot as plt
+
+workflow_tests_path = r".github/workflows/data"
+os.makedirs(workflow_tests_path, exist_ok=True)
 
 def call_shell_script():
     start_time = time.time()
@@ -35,6 +39,6 @@ plt.xlabel('Call Number')
 plt.ylabel('Time (seconds)')
 plt.grid(True)
 
-plt.savefig(r".github/workflows/data/time_usage.png")
+plt.savefig(f"{workflow_tests_path}/time_usage.png")
 
 print("Plot saved as time_usage.png")
