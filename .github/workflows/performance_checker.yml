@@ -32,12 +32,6 @@ jobs:
           make build-limmat
           make build-limboole
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: path/to/artifacts/ # Specify the path where the build artifacts are stored
-
       - name: Setup Server
         run: |
           set -x
@@ -64,13 +58,6 @@ jobs:
 
           python3 .github/workflows/optimization_test.py
 
-          cd /.github/workflows
-          ls
-          cd /data/
-          ls
-          cd ..
-          cd ../..
-          
       - name: Upload time usage graph
         uses: actions/upload-artifact@v4
         with:
