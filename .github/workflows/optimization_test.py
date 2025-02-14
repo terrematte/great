@@ -35,6 +35,6 @@ plt.xlabel('Call Number')
 plt.ylabel('Time (seconds)')
 plt.grid(True)
 
-plt.savefig(".github/workflows/data/time_usage.png")
+plt.savefig(r".github/workflows/data/time_usage.png")
 
 print("Plot saved as time_usage.png")
