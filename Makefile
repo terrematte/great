@@ -1,9 +1,9 @@
-LIMMAT_DIR 			= limmat
-LIMBOOLE_DIR 		= limboole-0.2
+PICOSAT_DIR 		= picosat
+LIMBOOLE_DIR 		= limboole1.2
 EXAMPLEREQUEST_DIR 	= example_requests
 EXPORTING_DIR	 	= exporting
 
-all: clean-all build-limmat build-limboole start-server
+all: build-picosat build-limboole start-server
 
 install-dependences:
 	sudo apt update
@@ -18,11 +18,11 @@ update-branch:
 	git commit -m "update branch commit"
 	git push
 
-build-limmat:
-	cd $(LIMMAT_DIR) &&	CC=gcc ./configure && make && cd ..
+build-picosat:
+	cd $(PICOSAT_DIR) && ./configure && make && cd ..
 
 build-limboole:
-	cd $(LIMBOOLE_DIR) && make && cd ..
+	cd $(LIMBOOLE_DIR) && ./configure.sh --picosat && make && cd ..
 
 start-server:
 	clear
@@ -30,12 +30,11 @@ start-server:
 	echo "cabou!!"
 
 clean-all:
-	cd $(LIMMAT_DIR) &&	make clean && cd ..
+	cd $(PICOSAT_DIR) &&	make clean && cd ..
 	
 	cd $(LIMBOOLE_DIR) && make clean && cd ..
 
 	rm -f limboole
-	rm -f limmat/limmat
 
 	cd $(EXAMPLEREQUEST_DIR) && make clean-files && cd ..
 	cd $(EXPORTING_DIR) && make clean && cd ..
