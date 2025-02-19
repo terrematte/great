@@ -1,119 +1,180 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"> 
     <title>Adicionar Exercícios</title>
-    <link rel="stylesheet" type="text/css" href="base.css" />
-    <script src="jquery-1.7.1.min.js"></script>
-    <script src="config.js"></script>
-    <script src="query.js"></script>
+      <link rel="icon" type="image/x-icon" href="/src/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="src/css/base.css" />
+    <script src="src/js/jquery-1.7.1.min.js"></script>
+    <script src="src/js/config.js"></script>    
+    <script src="src/js/query.js"></script>
+
   </head>
-  <body>
-    <form>
-      <h1>Adicionar exercícios</h1>
-      <div class="box">
+
+<body>
+	<form>
+      <div class="box" style="height: 95% ;width: 98%;">
+
+         <h1>Generate Tasks</h1>
+
+		<div class="row">
+          <div class="cell"><div class="name">Defined Tasks</div></div>
+          <div class="cell">
+			  <div class="block">
+			  <select id="tasktype">
+					<option value="None">-- Select --</option>
+					<option value="provable-level1">Only Proofs - Level 1</option>
+					<option value="provable-level2">Only Proofs - Level 2</option>
+					<option value="provable-level3">Only Proofs - Level 3</option>
+					<option value="provable-level4">Only Proofs - Level 4</option>
+					<option value="refutable-level1">Only Refutations - Level 1</option>
+					<option value="refutable-level2">Only Refutations - Level 2</option>
+					<option value="refutable-level3">Only Refutations - Level 3</option>
+					<option value="refutable-level4">Only Refutations - Level 4</option>
+					<option value="conjecture-level1">Conjectures to Prove or Refute - Level 1</option>
+					<option value="conjecture-level2">Conjectures to Prove or Refute - Level 2</option>
+					<option value="conjecture-level3">Conjectures to Prove or Refute - Level 3</option>
+					<option value="conjecture-level4">Conjectures to Prove or Refute - Level 4</option>
+			 </select>
+			</div>
+	      </div>
+		<div class="name_descr">*Select a pre-configured difficulty level.</div>
+          </div>
         <div class="row">
-          <div class="cell"><div class="name">Código</div></div>
+          <div class="cell"><div class="name">Name of Tasks</div></div>
           <div class="cell">
             <div class="block">
-              <input type="text" name="code" value="abc"/>
+              <input type="text" id="code" name="code" value="abc"/>
             </div>
           </div>
+		<div class="name_descr">*Provide a prefix name for the tasks. The students will see this prefix on each task.</div>
         </div>
         <div class="row">
-          <div class="cell"><div class="name">Exercícios por aluno</div></div>
+          <div class="cell"><div class="name">Tasks by Student</div></div>
           <div class="cell">
             <div class="block">
-              <input type="text" class="num" name="num_exercises" value="0"/> (<span id="num_total">0</span> ao todo)
+              <input type="text" class="num"  id="num_exercises" name="num_exercises" value="0"/> (<span id="num_total">0</span> in total)
             </div>
           </div>
+		<div class="name_descr">*Provide the number of different task per student. Note that for each conjecture has two templates, one for students to prove, another template to refute, only one is feasible.</div>          
         </div>
         <div class="row">
-          <div class="cell"><div class="name">Átomos</div></div>
+          <div class="cell"><div class="name">Atoms</div></div>
           <div class="cell">
             <div class="block">
-              <input type="text" name="atoms" value="A, B, C, D" />
+               <input type="text" id="atoms" name="atoms" value="A, B, C, D" />
             </div>
           </div>
+		<div class="name_descr">*Provide the letters for the propositional atoms. The number of distinct letters will provide the set of possible generated formula.</div>            
         </div>
         <div class="row">
-          <div class="cell"><div class="name">Conectivos</div></div>
+          <div class="cell"><div class="name">Connectives</div></div>
           <div class="cell">
             <div class="block">
               <ul>
-                <li><label><input type="checkbox" name="conectives" value="bottom" />Bottom</label></li>
-                <li><label><input type="checkbox" name="conectives" value="top" />Top</label></li>
-                <li><label><input type="checkbox" name="conectives" value="not" checked />Negação</label></li>
-                <li><label><input type="checkbox" name="conectives" value="or" checked />Disjunção</label></li>
+               <!-- <li><label><input type="checkbox" name="conectives" value="bottom" />Bottom</label></li> -->
+               <!-- <li><label><input type="checkbox" name="conectives" value="top" />Top</label></li>		 -->
+                <li><label><input type="checkbox" name="conectives" id="not" value="not" checked />Negation</label></li>
+                <li><label><input type="checkbox" name="conectives" id="or" value="or" checked />Disjuction</label></li>
               </ul>
               <ul>
-                <li><label><input type="checkbox" name="conectives" value="and" checked />Conjunção</label></li>
-                <li><label><input type="checkbox" name="conectives" value="imp" checked />Implicação</label></li>
-                <li><label><input type="checkbox" name="conectives" value="biimp" checked />Bi-implicação</label></li>
+                <li><label><input type="checkbox" name="conectives" id="and" value="and" checked />Conjuction</label></li>
+                <li><label><input type="checkbox" name="conectives" id="imp" value="imp" checked />Implication</label></li>
+                <li><label><input type="checkbox" name="conectives" id="biimp" value="biimp" checked />Biimplication</label></li>
               </ul>
               <br />
 
             </div>
           </div>
+		<div class="name_descr">*Select the possibles connectives on each formula.</div>          
         </div>
         <div class="row">
-          <div class="cell"><div class="name">Complexidade</div></div>
+          <div class="cell"><div class="name">Complexity</div></div>
+          <div class="cell">
+            <div class="block">
+              <input type="text" class="num" id="compl_min" name="compl_min" value="2" /> à
+              <input type="text" class="num" id="compl_max" name="compl_max" value="6" />
+            </div>
+          </div>
+		<div class="name_descr">*Select the range of complexity of each formula. The complexity is measured by the total number of connectives on a formula.</div>          
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Number of Premises</div></div>
+          <div class="cell">
+            <div class="block">
+              <input type="text" class="num" id="num_premises" name="num_premises" value="2" />
+            </div>
+          </div>
+   		<div class="name_descr">*Select the number of premises on each tasks.</div>          
+        </div>
+        <div class="row">
+          <div class="cell"><div class="name">Restrictions</div></div>
           <div class="cell">
             <div class="block">
 
-              <input type="text" class="num" name="compl_min" value="2" /> à
-              <input type="text" class="num" name="compl_max" value="6" />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="cell"><div class="name">Número de premissas</div></div>
-          <div class="cell">
-            <div class="block">
-              <input type="text" class="num" name="num_premises" value="2" />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="cell"><div class="name">Restrições</div></div>
-          <div class="cell">
-            <div class="block">
-              <ul>
-                <li>
-                  <label><input type="checkbox" name="restrictions" value="same_proportion" checked />Igual proporção</label>
-                </li>
-                <li>
-                  <label><input type="checkbox" name="restrictions" value="must_be_relevant" checked />Premissas relevantes</label>
-                </li>
-                <li>
-                  <label><input type="checkbox" name="restrictions" value="no_superfluous_premises_allowed" checked />Sem premissas desnecessárias</label>
-                </li>
-                <li>
-                  <label><input type="checkbox" name="restrictions" value="premise_conjunction_must_be_contingent" checked />Conjunção das premissas é contingente</label>
-                </li>
-              </ul>
+                <label><input type="checkbox" id="same_proportion" name="restrictions" value="same_proportion" checked />Same proportions</label>
+		<br />
+                <label><input type="checkbox" id="relevant" name="restrictions" value="must_be_relevant" checked />Relevant Premises</label>
+		<br />
+                <label><input type="checkbox" id="no_superfluous" name="restrictions" value="no_superfluous_premises_allowed" checked />All premises needed</label>
+		<br />
+                <label><input type="checkbox" id="premise_contingent" name="restrictions" value="premise_conjunction_must_be_contingent" checked />Contingent Conjunction of Premises</label>
+		<br />
+                <label><input type="radio" id="only_provable" name="restrictions" value="only_provable"/>Only Provables</label>
+		<br />
+                <label><input type="radio" id="only_refutable" name="restrictions" value="only_refutable" />Only Refutables</label>
+		<br />
+                <label><input type="radio" id="refutable_provable" name="restrictions" value="refutable_provable" checked />Provables and Refutables</label>
+		<br />
 
-              <br />
-            </div>
+			</div>
+			</div>
+			  		<div class="name_descr">
+						<ul>
+							<li><b>Same proportions:</b>Indicates the same total number of tasks for Proof and Refute, i.e. 50% of provable tasks, and 50% of refutable tasks. But the tasks are assign by random, so each students might receive an arbitrary number of each type, provable or refutable.</li>
+							<li><b>Relevant Premises:</b> Each premise share at least one atom with the conclusion.</li>
+							<li><b>All premises needed:</b> The conclusion is not satisfactible without any of premises.</li>
+							<li><b>Contingent Conjunction of Premises:</b> The conjunction of premises is not a tautology neither a contradiction.</li>
+							<li><b>Only Provables, Refutables, or Provables and Refutables:</b> Indicates the type of generated conjectures.</li>
+						</ul>
+			  		</div>
+		</div>
+        <div class="row">
+          <div class="cell">
+			<div class="name">Course</div>
           </div>
-        </div>
+          <div class="cell">
+			 
+            <div class="block">
+					<input type="text" id="course" name="course" value="course"/>
+			</div>
+          </div>
+		</div>
         <div class="row">
           <div class="cell"><div class="name"></div></div>
-          <div class="cell"><div class="block hover"><a id="send">Enviar</a> <a id="salvar"  style="display: none">Salvar</a></div></div>
+          <div class="cell"><div class="block hover">
+				<img id="load" src="src/img/loadbar.gif" alt="loadbar" height="42" style="display: none">
+				<a id="send">Send</a> <a id="salvar"  style="display: none">Save to ProofWeb</a></div></div>
+		<div class="name_descr"> *This might take several minutes. For instance, to generate 50 conjectures on Level 4, it takes 40 minutes. <br/>
+					  Be patient with our SAT solver, he is working NP-hard. :)</div>
         </div>
       </div>
-    </form>
+
     <div id="side">
       <div id="menu" style="display: none">
-        <a id="codigo" class="click hover">Código</a>
-        <a id="exerc" class="click hover">Exercícios</a>
-        <a id="detalhes" class="click hover">Detalhes</a>
+        <a id="codigo" class="click hover">Code</a>
+        <a id="exerc" class="click hover">Tasks</a>
+        <a id="detalhes" class="click hover">Details</a>
       </div>
       <div id="c_codigo" class="tab">
         <textarea name="codigo"></textarea>
       </div>
-      <div id="c_exerc" class="tab"  style="display: none"></div>
-      <div id="c_detalhes" class="tab"  style="display: none"></div>
-    </div>
+	<div id="c_exerc" class="tab"  style="display: none"></div>
+      	<div id="c_detalhes" class="tab"  style="display: none"></div>
+   </div>
+  </form>
+
+    
   </body>
 </html>
+
+

@@ -1,5 +1,5 @@
-LIMMAT_DIR 			= limmat
-LIMBOOLE_DIR 		= limboole-0.2
+LIMMAT_DIR 		= src/sat/limmat
+LIMBOOLE_DIR 		= src/sat/limboole-0.2
 EXAMPLEREQUEST_DIR 	= example_requests
 EXPORTING_DIR	 	= exporting
 
@@ -21,8 +21,8 @@ clean-all:
 	
 	cd $(LIMBOOLE_DIR) && make clean && cd ..
 
-	rm -f limboole
-	rm -f limmat/limmat
+	rm -f src/sat/limboole
+	rm -f src/sat/limmat/limmat
 
 	cd $(EXAMPLEREQUEST_DIR) && make clean-files && cd ..
 	cd $(EXPORTING_DIR) && make clean && cd ..

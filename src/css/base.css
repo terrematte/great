@@ -1,0 +1,217 @@
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+/* reset */
+* { margin:0; padding:0;}
+
+body {
+    line-height: 1;
+    margin: 0em;
+    font-size: 14px;
+    background-color:#fff;
+    color: #000;
+}
+
+form, .box-form {
+    display:-moz-inline-stack;
+    display:inline-block;
+    *display:inline;
+
+    width: 70%;
+
+    background-color: #d6e5f4;
+    border-bottom:1px solid #85b1de;
+
+    margin-left: 2em;
+}
+
+
+h1 {
+    font-size: 1.5em;
+    font-weight: normal;
+
+
+    padding: 1.2em;
+}
+
+.box {
+    display: table;
+    border-spacing: 0px; border-collapse: collapse;
+}
+
+.row {
+    font-size: 1.1em;
+    width:100%;
+    display: table-row;
+}
+
+.row.active {
+    background-color: #DAE8F5;
+}
+
+.name {
+    display: block;
+    color:#555;
+    text-align:right;
+    padding: 1.2em 1.5em 1.2em 0.5em;
+
+    height: 100%;
+    border-top: solid 1px #85b1de;
+}
+.name_descr {
+    color:#555;
+    font-style: italic;
+	padding: 1.2em  15px 1.2em 0em;
+	width: 100%;
+    border-top: solid 1px #85b1de;
+}
+
+input.num {
+    width: 3em;
+    padding: 0em 0.2em;
+}
+
+.cell {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.block {
+    width: 20em;
+
+    padding: 1.2em 0em;
+    border-top: solid 1px #85b1de;
+}
+
+.block ul {
+    float: left;
+    list-style-type: none;
+    width: 100%;
+}
+
+.block li {
+    width: 10em;
+    float: left;
+}
+
+
+
+input[type="checkbox"] {
+    vertical-align: middle;
+    margin: 0 0.4em 0 0;
+}
+
+.block br {
+    clear: left;
+}
+
+input, textarea {
+    background-color: #EDF2F7;
+    border: 1px solid #888;
+}
+
+input.active, textarea.active {
+    background-color: #fff;
+
+}
+
+input { height: 1.8em; }
+textarea { width: 100%; height: 40em; }
+
+#prepare_course, #send, #salvar, #lcp_save, #lcpo_save, #lcp_rm, #lcpo_rm, #lcp_hidden, #lcpo_hidden
+{
+    padding: 0.3em;
+    background-color:#CCCCCC;
+
+
+    border: 1px double #666666;
+}
+
+.hover {
+    cursor: pointer;
+}
+
+
+.desc {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+
+    max-width: 40%;
+
+    padding: 1.2em;
+    margin: 0em 2em;
+
+    background-color: #F0FFF0;
+
+    display: none;
+}
+
+#side {
+    width: 90%;
+
+    padding: 1.2em;
+    margin: 0em 2em;
+
+    background-color: #F0FFF0;
+}
+
+.tab {
+
+}
+
+a.click {
+    padding: 0.15em;
+    display: inline;
+
+    border: 1px double #666666;
+
+}
+
+.selected {
+    color: #006;
+}
+
+#menu {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+
+    color: #060;
+}
+

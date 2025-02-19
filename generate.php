@@ -7,17 +7,17 @@ header('Content-Type: application/json');
 
 ini_set('max_execution_time', 5000);
 
-require_once 'formulae/Atom.php';
-require_once 'formulae/Node.php';
-require_once 'formulae/Connective.php';
-require_once 'formulae/Formula.php';
-require_once 'formulae/FormulaGenerator.php';
-require_once 'formulae/FormulaChecker.php';
+require_once 'src/formulae/Atom.php';
+require_once 'src/formulae/Node.php';
+require_once 'src/formulae/Connective.php';
+require_once 'src/formulae/Formula.php';
+require_once 'src/formulae/FormulaGenerator.php';
+require_once 'src/formulae/FormulaChecker.php';
 
 
 function sat($formula) {
     $formula = escapeshellarg($formula);
-    $output = `echo $formula | ./limboole -s`;
+    $output = `echo $formula | ./src/sat/limboole -s`;
     return preg_match('/^% SATISFIABLE/', $output) >= 1;
 }
 
@@ -55,7 +55,7 @@ function relevant($premises, $conclusion) {
 
 function valid($formula) {
     $formula = escapeshellarg($formula);
-    $output = `echo $formula | ./limboole`;
+    $output = `echo $formula | ./src/sat/limboole`;
     return preg_match('/^% VALID/', $output) >= 1; 
 }
 
