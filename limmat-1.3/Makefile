@@ -13,10 +13,12 @@ limmat.o: limmat.c limmat.h config.h
 white: limmat.h limmat.c config.h
 	$(CC) $(CFLAGS) -DLIMMAT_WHITE -o $@ limmat.c
 clean:
-	rm -f white limmat liblimmat.a 
 	rm -f log/*.log *.o
 	rm -f *~ tags core
-distclean: clean
+	rm -f white liblimmat.a 
+clean-all: clean
+	rm -f limmat 	
+distclean: clean-all
 	rm -f config.h Makefile
 
-.PHONY: all clean distclean export
+.PHONY: all clean-all distclean export
