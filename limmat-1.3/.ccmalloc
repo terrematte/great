@@ -1,3 +1,0 @@
-set keep-deallocated-data
-log ccmalloc.log
-set print-addresses
