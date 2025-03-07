@@ -1,8 +1,5 @@
 <?php
 
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
-
 header('Content-Type: application/json');
 
 ini_set('max_execution_time', 5000);
@@ -13,7 +10,6 @@ require_once 'src/formulae/Connective.php';
 require_once 'src/formulae/Formula.php';
 require_once 'src/formulae/FormulaGenerator.php';
 require_once 'src/formulae/FormulaChecker.php';
-
 
 function sat($formula) {
     $formula = escapeshellarg($formula);
@@ -30,7 +26,7 @@ function relevant($premises, $conclusion) {
     $premise_atoms = array();
     $conclusion_atoms = array();
     $numRelevPrems = 0;
-    $pattern = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/'; // Regular expression to check valid "variable name"
+    $pattern = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/';
     
     preg_match_all($pattern, $conclusion, $conclusion_atoms); 
 
@@ -139,7 +135,6 @@ function generate_exercises($num_valid, $num_invalid, $num_premises, $exercise_i
                    'num_req_valid' => $num_valid,
                    'num_req_invalid' => $num_invalid);
 
-    // Debug Variables
     $stats['num_gen'] = $stats['num_gen_valid'] + $stats['num_gen_invalid'];
     $stats['num_discarded'] = $stats['num_discarded_valid'] + $stats['num_discarded_invalid'] + $stats['num_discarded_not_fit'];
     $stats['num_req'] = $stats['num_req_valid'] + $stats['num_req_invalid'];
@@ -154,11 +149,7 @@ function gen($params) {
     $must_be_relevant = false;
     $premise_conjunction_must_be_contingent = false;
 
-    // Debug: Check input parameters
-    // error_log("Received parameters: " . json_encode($params));
-
     foreach ($params['restrictions'] ?? [] as $restr) {
-        // error_log("Processing restriction: $restr");
         if ($restr === 'same_proportion')
             $cutoff = floor($total / 2);
         elseif ($restr === 'no_superfluous_premises_allowed')
@@ -168,26 +159,26 @@ function gen($params) {
         elseif ($restr === 'premise_conjunction_must_be_contingent')
             $premise_conjunction_must_be_contingent = true;
         elseif ($restr === 'refutable_provable'){
-			$refutable_provable = true;
-			$only_refutable = false; 
-			$only_provable = false;  
-			$num_valid = $cutoff;
-			$num_invalid = $total - $cutoff;
-		}
+            $refutable_provable = true;
+            $only_refutable = false; 
+            $only_provable = false;  
+            $num_valid = $cutoff;
+            $num_invalid = $total - $cutoff;
+        }
         elseif ($restr === 'only_refutable'){
-			$refutable_provable = false;
-			$only_refutable = true; 
-			$only_provable = false;      
-			$num_valid = 0;
-			$num_invalid = $total;
-		}                   
+            $refutable_provable = false;
+            $only_refutable = true; 
+            $only_provable = false;      
+            $num_valid = 0;
+            $num_invalid = $total;
+        }                   
         elseif ($restr === 'only_provable'){
-			$refutable_provable = false;
-			$only_refutable = false; 
-			$only_provable = true;           
-			$num_valid = $total;
-			$num_invalid = 0;
-		}
+            $refutable_provable = false;
+            $only_refutable = false; 
+            $only_provable = true;           
+            $num_valid = $total;
+            $num_invalid = 0;
+        }
     }
 
     $num_valid = $params['num_valid'] ?? 5;
@@ -195,9 +186,6 @@ function gen($params) {
 
     $num_premises = $params['num_premises'];
     $conectives = array();
-
-    // Debug: Check the connectives
-    // error_log("Connectives: " . json_encode($params['conectives']));
 
     foreach ($params['conectives'] as $con) {
         if ($con === 'and')
@@ -212,23 +200,16 @@ function gen($params) {
             array_push($conectives, new Connective("!","not","N",1,0));
     }
 
-    // Debug: Check if connectives were added correctly
-    // error_log("Connectives after processing: " . json_encode($conectives));
-
     $atoms = array();
     foreach ($params['atoms'] as $atm) {
         array_push($atoms, new Atom($atm));
     }
-
-    // Debug: Check if atoms are added correctly
-    // error_log("Atoms: " . json_encode($atoms));
 
     $fgenerator = new FormulaGenerator($conectives, $atoms);
 
     $compl_min = intval($params['compl_min']);
     $compl_max = intval($params['compl_max']);
 
-    // Debug: Check if formula generation is happening
     $generated_exercises = generate_exercises(
         $num_valid, $num_invalid, $num_premises,
         function ($exercise) use($no_superfluous_premises_allowed, $must_be_relevant, $premise_conjunction_must_be_contingent) {
@@ -254,9 +235,6 @@ function gen($params) {
             return $formula; 
         });
 
-    // Debug: Check generated exercises
-    // error_log("Generated exercises: " . json_encode($generated_exercises));
-
     return $generated_exercises;
 }
 
@@ -266,8 +244,15 @@ $jsonInput = file_get_contents('php://input');
 $decoded = json_decode($jsonInput, true);
 
 if ($decoded === null) {
-    echo json_encode(['error' => 'Invalid JSON received']);
-    exit;
+    $decoded = [
+        'num_exercises' => 10,
+        'restrictions' => ['same_proportion'],
+        'num_premises' => 2,
+        'conectives' => ['and', 'or', 'not'],
+        'atoms' => ['p', 'q', 'r'],
+        'compl_min' => 1,
+        'compl_max' => 3
+    ];
 }
 
 $time_a = microtime(true);
