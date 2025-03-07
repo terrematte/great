@@ -1,0 +1,18 @@
+#+title: Dockereadme
+#+author: João Lucas de Moraes Pereira
+
+* Running
+#+begin_src bash
+  docker build -t great-app .
+  docker run -d -p 8080:80 --name great-app-container great-app
+  #Open http://localhost:8080/generate.php
+#+end_src
+* Re-Running
+
+#+begin_src bash
+  docker rm great-app-container
+  docker stop great-app-container
+  docker build -t great-app .
+  docker run -d -p 8080:80 --name great-app-container great-app
+  #Open http://localhost:8080/generate.php
+#+end_src
