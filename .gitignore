@@ -1,3 +1,4 @@
+# Vendored libs 
 dimacs2boole
 limboole
 picosat
@@ -6,15 +7,17 @@ picosat
 *.so
 src/**/Makefile
 
-/exporting/*.aux
-/exporting/*.log
-/exporting/*.tex
-/exporting/*.pdf
-/exporting/error_log.txt
 
+
+# Exporting formats
+
+*.aux
+*.log
+*.log
+*.tex
+*.pdf
+*.utf8
 /example_requests/lib
-/example_requests/*.pdf
+
 
 /.vscode
-
-limboole
