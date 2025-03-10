@@ -12,16 +12,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY . .
 
-RUN cd src/sat/limmat-1.3 && \
-    CC=gcc ./configure && \
-    make clean && \
-    make && \
-    chmod +x limmat
-
-RUN cd src/sat/limboole-0.2 && \
-    make clean && \
-    make && \
-    chmod +x ../limboole  # Change to chmod the moved binary
+RUN make build
 
 RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 755 /var/www/html && \
