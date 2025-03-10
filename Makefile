@@ -1,15 +1,28 @@
-LIMMAT_DIR 		= src/sat/limmat
-LIMBOOLE_DIR 		= src/sat/limboole-0.2
+PICOSAT_DIR 		= picosat
+LIMBOOLE_DIR 		= limboole1.2
 EXAMPLEREQUEST_DIR 	= example_requests
 EXPORTING_DIR	 	= exporting
 
-all: clean-all build-limmat build-limboole start-server
+all: build-picosat build-limboole start-server
 
-build-limmat:
-	cd $(LIMMAT_DIR) &&	CC=gcc ./configure && make && cd ..
+ install-dependences:
+ 	sudo apt update
+ 	sudo apt install -y make gcc
+ 	sudo apt install -y php-cli php-mbstring php-xml php-curl php-zip php-bcmath
+ 	python -m pip install --upgrade pip
+ 	pip install -r requirements.txt
+ 
+ update-branch: 
+ 	make clean-all
+ 	git add .
+ 	git commit -m "update branch commit"
+ 	git push
+ 
+build-picosat:
+	cd $(PICOSAT_DIR) && ./configure && make && cd ..
 
 build-limboole:
-	cd $(LIMBOOLE_DIR) && make && cd ..
+	cd $(LIMBOOLE_DIR) && ./configure.sh --picosat && make && cd ..
 
 start-server:
 	clear
@@ -17,12 +30,9 @@ start-server:
 	echo "cabou!!"
 
 clean-all:
-	cd $(LIMMAT_DIR) &&	make clean && cd ..
+	cd $(PICOSAT_DIR) &&	make clean && cd ..
 	
 	cd $(LIMBOOLE_DIR) && make clean && cd ..
-
-	rm -f src/sat/limboole
-	rm -f src/sat/limmat/limmat
 
 	cd $(EXAMPLEREQUEST_DIR) && make clean-files && cd ..
 	cd $(EXPORTING_DIR) && make clean && cd ..
