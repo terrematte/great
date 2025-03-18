@@ -1,5 +1,6 @@
 # Vendored libs 
 dimacs2boole
+testlimboole
 limboole
 picosat
 *.o

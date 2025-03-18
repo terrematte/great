@@ -11,10 +11,20 @@ require_once 'src/formulae/Formula.php';
 require_once 'src/formulae/FormulaGenerator.php';
 require_once 'src/formulae/FormulaChecker.php';
 
+
+$validMemo = [];
+$satMemo = [];
+
 function sat($formula) {
+		global $satMemo;
+		if(isset($satMemo[$formula])){
+			return $satMemo[$formula];
+		}
     $formula = escapeshellarg($formula);
     $output = `echo $formula | ./src/sat/limboole -s`;
-    return preg_match('/^% SATISFIABLE/', $output) >= 1;
+    $result =  preg_match('/^% SATISFIABLE/', $output) >= 1;
+		$satMemo[$formula] = $result;
+		return $result;
 }
 
 function follows($premises, $conclusion) {
@@ -50,9 +60,15 @@ function relevant($premises, $conclusion) {
 }
 
 function valid($formula) {
+		global $validMemo;
+		if(isset($validMemo[$formula])){
+			return $validMemo[$formula];
+		}
     $formula = escapeshellarg($formula);
     $output = `echo $formula | ./src/sat/limboole`;
-    return preg_match('/^% VALID/', $output) >= 1; 
+    $result = preg_match('/^% VALID/', $output) >= 1; 
+		$validMemo[$formula] = $result;
+		return $result;
 }
 
 function contingency($formula) {
