@@ -1,10 +1,11 @@
-PICOSAT_DIR 		= src/sat/picosat
+LIMBOOLE_BACKEND = lingeling
+LIMBOOLE_BACKEND_DIR  = src/sat/lingeling
 LIMBOOLE_DIR 		= src/sat/limboole1.2
 EXPORTING_DIR	 	= exporting
 EXAMPLEREQUEST_DIR 	= $(EXPORTING_DIR)/example_requests
 
-build: build-picosat build-limboole
-all: build-picosat build-limboole start-server
+build: build-limboole-backend build-limboole
+all: build-limboole-backend build-limboole start-server
 
 install-dependences:
 	sudo apt update
@@ -19,11 +20,11 @@ update-branch:
 	git commit -m "update branch commit"
 	git push
  
-build-picosat:
-	cd $(PICOSAT_DIR) && ./configure && make && cd ..
+build-limboole-backend:
+	cd $(LIMBOOLE_BACKEND_DIR) && ./configure.sh && make && cd ..
 
-build-limboole: build-picosat
-	cd $(LIMBOOLE_DIR) && ./configure.sh --picosat && make && cd ..
+build-limboole: build-limboole-backend
+	cd $(LIMBOOLE_DIR) && ./configure.sh --$(LIMBOOLE_BACKEND) && make && cd ..
 
 start-server:
 	clear
