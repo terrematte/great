@@ -1,5 +1,7 @@
 FROM php:8.2-apache
 
+ENV SAT_PATH=/var/www/html/src/sat/limboole1.2/limboole
+
 WORKDIR /var/www/html
 
 RUN apt-get update && apt-get install -y \
@@ -22,6 +24,11 @@ RUN chown -R www-data:www-data /var/www/html && \
 RUN echo "RewriteEngine On" > .htaccess && \
     echo "RewriteCond %{REQUEST_FILENAME} !-f" >> .htaccess && \
     echo "RewriteRule ^ index.php [QSA,L]" >> .htaccess
+
+RUN chmod +x /var/www/html/src/sat/limboole1.2/limboole
+
+RUN echo "SetEnv SAT_PATH ${SAT_PATH}" >> /etc/apache2/conf-available/environment.conf && \
+    a2enconf environment
 
 EXPOSE 80
 CMD ["apache2-foreground"]

@@ -11,9 +11,13 @@ require_once 'src/formulae/Formula.php';
 require_once 'src/formulae/FormulaGenerator.php';
 require_once 'src/formulae/FormulaChecker.php';
 
+
+$SAT_PATH = getenv('SAT_PATH') ?? "./src/sat/limboole";
+
 function sat($formula) {
+    global $SAT_PATH;
     $formula = escapeshellarg($formula);
-    $output = `echo $formula | ./src/sat/limboole -s`;
+    $output = shell_exec("echo $formula | $SAT_PATH -s");
     return preg_match('/^% SATISFIABLE/', $output) >= 1;
 }
 
@@ -50,8 +54,9 @@ function relevant($premises, $conclusion) {
 }
 
 function valid($formula) {
+    global $SAT_PATH;
     $formula = escapeshellarg($formula);
-    $output = `echo $formula | ./src/sat/limboole`;
+    $output = shell_exec("echo $formula | $SAT_PATH -s");
     return preg_match('/^% VALID/', $output) >= 1; 
 }
 
