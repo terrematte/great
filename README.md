@@ -133,8 +133,3 @@ The server compile the .pdf internally and if you want only the .tex content:
 ```bash
 jq -r '.tex_content' latex_response.json > response.tex
 ```
-
-
-
-
-test
