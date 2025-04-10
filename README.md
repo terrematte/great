@@ -9,36 +9,63 @@
 - `make` – for building the necessary components.
 - `php` – to run the PHP development server.
 - `gcc` – the GNU Compiler Collection, used for compiling C code.
+- `docker` – easier deploy. 
+
+Solve it with `make install-dependences`
 
 ---
 
-## Setup Instructions
+## Setup Instructions - `Docker`
+
+### 0. **Do it all with a single command**
+```bash
+make docker
+```
+
+### 1. **Build `great-app` docker image**
+```bash
+docker build -t great-app .
+```
+
+It'll cleanup the folders then execute the setup/buildup routines below:
+
+### 2. **Run the docker in `great-app-container`**
+```bash
+docker run -d -p 8080:80 --name great-app-container great-app
+```
+
+### 3. **`Stopping` and `cleaning` files**
+```bash
+docker stop great-app-container
+docker rm great-app-container
+```
+
+---
+
+## Setup Instructions - `Local Server`
 
 ### 0. **Do it all with a single command**
 ```bash
 make
 ```
 
-It'll clean all files that will be created, them recompile all the binaries and dependences. And if the Makefile isn't working:
-
-### 1. **Build the `liblimmat.a` Library**
+### 1. **Build the `picosat` binary**
 
 ```bash
-cd limmat
+cd src/sat/picosat
 CC=gcc ./configure
 make
-cd ..
+cd ../../..
 ```
 
-### 2. **Build the `limboole` binary**
+### 2. **Build the `limboole1.2` binary**
 ```bash
-cd limboole-0.2
+cd src/sat/limboole1.2
 make
-mv limboole ../limboole
-cd ..
+cd ../../..
 ```
 
-### 3. **Start the php server**
+### 3. **Start the `php` server**
 
 ```bash
 php -S 127.0.0.1:8000
@@ -46,20 +73,33 @@ php -S 127.0.0.1:8000
 
 ---
 
-## Cleaning unnecessary files
+## `Cleanup` and `Interaction`
+
+### Cleanse
 ```bash
 make clean-all
+```
+Includes docker cleanup commands too.
+
+### UI
+```
+http://localhost:8080/index.html
+```
+
+### Exercises
+```
+http://localhost:8080/generate.php
 ```
 
 ---
 
 ## Making Requests
 
-Some scripts with default POST requests can be found at example_requests/, and some of them are:
+Some scripts with default POST requests can be found at exporting/example_requests/, and some of them are:
 
 ### 1. Simple exercises generation request
 ```bash
-curl -X POST http://127.0.0.1:8000/generate.php \
+curl -X POST http://127.0.0.1:8080/generate.php \
 -H "Content-Type: application/json" \
 -d '{
     "num_exercises": 3,
@@ -79,7 +119,7 @@ Note: It may take a while to execute
 ### 2. Simple conversion of exercises .json to .tex/.pdf
 
 ```bash
-curl -X POST http://127.0.0.1:8000/exporting/export_formula.php \
+curl -X POST http://127.0.0.1:8080/exporting/export_formula.php \
      -H "Content-Type: application/json" \
      --data-binary @exercises.json | jq . > latex_response.json
 

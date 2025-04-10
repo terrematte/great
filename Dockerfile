@@ -1,6 +1,7 @@
 FROM php:8.2-apache
 
-ENV SAT_PATH=/var/www/html/src/sat/limboole1.2/limboole
+# Por favor herdar variáveis de ambiente vindas do Makefile, agradeço
+ENV LIMBOOLE_PATH=/var/www/html/src/sat/limboole1.2/limboole
 
 WORKDIR /var/www/html
 
@@ -27,7 +28,7 @@ RUN echo "RewriteEngine On" > .htaccess && \
 
 RUN chmod +x /var/www/html/src/sat/limboole1.2/limboole
 
-RUN echo "SetEnv SAT_PATH ${SAT_PATH}" >> /etc/apache2/conf-available/environment.conf && \
+RUN echo "SetEnv LIMBOOLE_PATH ${LIMBOOLE_PATH}" >> /etc/apache2/conf-available/environment.conf && \
     a2enconf environment
 
 EXPOSE 80

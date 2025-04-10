@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -X POST http://127.0.0.1:8000/exporting/export_formula.php \
+curl -X POST http://127.0.0.1:8080/exporting/export_formula.php \
      -H "Content-Type: application/json" \
      --data-binary @output.json | jq . > utf8_response.json
 

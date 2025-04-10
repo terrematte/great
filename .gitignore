@@ -7,17 +7,13 @@ picosat
 *.so
 src/**/Makefile
 
-
-
 # Exporting formats
-
 *.aux
 *.log
 *.log
-*.tex
+*.tex1
 *.pdf
 *.utf8
 /example_requests/lib
-
 
 /.vscode

@@ -11,13 +11,19 @@ require_once 'src/formulae/Formula.php';
 require_once 'src/formulae/FormulaGenerator.php';
 require_once 'src/formulae/FormulaChecker.php';
 
+// Note, LIMBOOLE_PATH for generate.php is not the same
+// $response = [
+//     'LIMBOOLE_PATH' => getenv('LIMBOOLE_PATH'),
+// ];
+// die(json_encode($response));
 
-$SAT_PATH = getenv('SAT_PATH') ?? "./src/sat/limboole";
+// Redefining just to be safe
+$LIMBOOLE_PATH = "src/sat/limboole1.2/limboole";
 
 function sat($formula) {
-    global $SAT_PATH;
+    global $LIMBOOLE_PATH;
     $formula = escapeshellarg($formula);
-    $output = shell_exec("echo $formula | $SAT_PATH -s");
+    $output = shell_exec("echo $formula | $LIMBOOLE_PATH -s");
     return preg_match('/^% SATISFIABLE/', $output) >= 1;
 }
 
@@ -54,9 +60,9 @@ function relevant($premises, $conclusion) {
 }
 
 function valid($formula) {
-    global $SAT_PATH;
+    global $LIMBOOLE_PATH;
     $formula = escapeshellarg($formula);
-    $output = shell_exec("echo $formula | $SAT_PATH -s");
+    $output = shell_exec("echo $formula | $LIMBOOLE_PATH -s");
     return preg_match('/^% VALID/', $output) >= 1; 
 }
 
