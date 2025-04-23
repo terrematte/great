@@ -1,0 +1,65 @@
+.navbar-style {
+    border: 1px solid #C6C6D0;
+}
+
+.box-principal {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 2rem;
+    border: 1px solid #C6C6D0;
+}
+
+.espacamento {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 3%; 
+    padding-bottom: 3%;   
+}
+
+.complexInput {
+    width: 20% !important;
+}
+
+.font-inter {
+    font-family: 'Inter', sans-serif; /* Define a fonte */
+    font-weight: 700; /* Peso da fonte (negrito) */
+    font-size: 20px;
+}
+
+.font-inter-p {
+    font-family: 'Inter', sans-serif; /* Define a fonte */
+    font-weight: 400; /* Peso da fonte (negrito) */
+    font-size: 13px;
+    color: #606060;
+}
+
+.div-border {
+    border-bottom: 0.5px solid #C6C6D0;
+    margin-bottom: 24px;
+}
+
+.button-check {
+    position: relative;
+    top: 3px; /* Move o elemento 20 pixels para baixo */
+}
+
+.button-conf {
+    background-color: #032978;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 30px;
+    text-decoration-color: white;
+    margin-bottom: 24px;
+}
+
+.form-select, .form-control {
+    font-family: 'Inter', sans-serif !important; 
+    font-weight: 500 !important; 
+    font-size: 14px !important;
+}
