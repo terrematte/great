@@ -1,0 +1,29 @@
+{
+    "code": "abc",
+    "num_exercises": 20,
+    "num_students": 10,
+    "atoms": [
+        "A",
+        "B",
+        "C",
+        "D"
+    ],
+    "compl_min": 2,
+    "compl_max": 6,
+    "num_premises": 2,
+    "conectives": [
+        "not",
+        "or",
+        "and",
+        "imp",
+        "biimp"
+    ],
+    "restrictions": [
+        "same_proportion",
+        "must_be_relevant",
+        "no_superfluous_premises_allowed",
+        "premise_conjunction_must_be_contingent",
+        "refutable_provable"
+    ],
+    "course": "course"
+}

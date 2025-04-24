@@ -1,5 +1,6 @@
 # Vendored libs 
 dimacs2boole
+testlimboole
 limboole
 picosat
 *.o
@@ -16,4 +17,9 @@ src/**/Makefile
 *.utf8
 /example_requests/lib
 
+# Benckmarks
+benchmarks/results/*
 /.vscode
+
+# Keep
+!benchmarks/results/.gitkeep

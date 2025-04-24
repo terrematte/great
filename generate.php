@@ -11,20 +11,22 @@ require_once 'src/formulae/Formula.php';
 require_once 'src/formulae/FormulaGenerator.php';
 require_once 'src/formulae/FormulaChecker.php';
 
-// Note, LIMBOOLE_PATH for generate.php is not the same
-// $response = [
-//     'LIMBOOLE_PATH' => getenv('LIMBOOLE_PATH'),
-// ];
-// die(json_encode($response));
-
-// Redefining just to be safe
+$validMemo = [];
+$satMemo = [];
 $LIMBOOLE_PATH = "src/sat/limboole1.2/limboole";
+
 
 function sat($formula) {
     global $LIMBOOLE_PATH;
+	global $satMemo;
+	if(isset($satMemo[$formula])){
+		return $satMemo[$formula];
+	}
     $formula = escapeshellarg($formula);
     $output = shell_exec("echo $formula | $LIMBOOLE_PATH -s");
-    return preg_match('/^% SATISFIABLE/', $output) >= 1;
+    $result =  preg_match('/^% SATISFIABLE/', $output) >= 1;
+		$satMemo[$formula] = $result;
+		return $result;
 }
 
 function follows($premises, $conclusion) {
@@ -61,9 +63,15 @@ function relevant($premises, $conclusion) {
 
 function valid($formula) {
     global $LIMBOOLE_PATH;
+	global $validMemo;
+	if(isset($validMemo[$formula])){
+		return $validMemo[$formula];
+	}
     $formula = escapeshellarg($formula);
     $output = shell_exec("echo $formula | $LIMBOOLE_PATH -s");
-    return preg_match('/^% VALID/', $output) >= 1; 
+    $result = preg_match('/^% VALID/', $output) >= 1; 
+		$validMemo[$formula] = $result;
+		return $result;
 }
 
 function contingency($formula) {
