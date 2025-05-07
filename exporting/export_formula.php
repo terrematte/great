@@ -82,7 +82,7 @@ function jsonToTsv($exercises) {
         $output .= "Conclusao" . convertSymbolsToUnicode($exercise['conclusion']) . $new;
     }
 
-    logAndReturnError($output);
+    # logAndReturnError($output);
     return $output;
 }
 
