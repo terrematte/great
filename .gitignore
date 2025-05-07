@@ -16,6 +16,7 @@ src/**/Makefile
 *.pdf
 *.utf8
 /example_requests/lib
+*/error_log.txt
 
 # Benckmarks
 benchmarks/results/*

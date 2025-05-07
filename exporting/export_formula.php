@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-$valid_types    = ['tex', 'utf8'];
+$valid_types    = ['tex', 'utf8', 'tsv'];
 
 function logAndReturnError($message, $data = null) {
     $logFile = "error_log.txt";
@@ -65,6 +65,27 @@ function jsonToUtf8($exercises) {
 
     return $output;
 }
+
+function jsonToTsv($exercises) {
+    # Using the utf8 encoding
+    # Using break as newline and ; as tabs
+    $new = "\n";
+    $tab = ";";
+    
+    $output = "Lista de Exercicios" . $new;
+
+    foreach ($exercises['valid'] as $index => $exercise) {
+        $output .= "Exercicio" . ($index + 1) . $tab;
+        foreach ($exercise['premises'] as $i => $premise) {
+            $output .= convertSymbolsToUnicode($premise) . $tab;
+        }
+        $output .= "Conclusao" . convertSymbolsToUnicode($exercise['conclusion']) . $new;
+    }
+
+    logAndReturnError($output);
+    return $output;
+}
+
 
 function convertSymbolsToLatex($text) {
     $replacements = [
@@ -209,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         foreach ($list_students as $student) {
-            if      ($convert_to_this_type === "tex") {
+            if ($convert_to_this_type === "tex") {
                 // error_log("tex Conversion Type for student: " . $student);
                 
                 $source_code_of_file = jsonToTex($exercises_for_student[$student], $course, $professor, $semester, $code, $registration, $student, $graduate, $titulo);
@@ -237,6 +258,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             elseif  ($convert_to_this_type === "utf8") {
                 $listof_source_code_of_file[] = jsonToUtf8($exercises_for_student[$student]);;
+            }
+            elseif  ($convert_to_this_type === "tsv") {
+                $listof_source_code_of_file[] = jsonToTsv($exercises_for_student[$student]);;
             }
         }        
 
