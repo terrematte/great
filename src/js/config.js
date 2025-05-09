@@ -16,5 +16,5 @@ var students_fullname = students;
 var num_students = students.length;
 
 var def = {
-    num_exercises: 1
+    num_exercises: 10
 };

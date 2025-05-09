@@ -26,7 +26,7 @@ function read_atoms(name) {
 function form_value() {
     return {
 		code: $("input[name='code']").val(),
-        num_exercises: read_num('num_exercises') * num_students,
+        num_exercises: $("#num_exercises").val(),
         num_students: num_students,
         atoms: read_atoms('atoms'),
         compl_min: read_num('compl_min'),
@@ -493,7 +493,7 @@ $('#tasktype').change(function()
 			$('#refutable_provable').attr('checked', 'checked');
 		}		
 		if(option == "EBL-preset"){
-			$('#code').val('EBL Preset');
+			$('#code').val('EBL Showcase');
 			$('#num_exercises').val('10');
 			$('#atoms').val('P, Q, R, S ,T');
 			$('#not').prop('checked', true);
@@ -509,6 +509,7 @@ $('#tasktype').change(function()
 			$('#no_superfluous').prop('checked', true);
 			$('#premise_contingent').prop('checked', true);
 			$('#refutable_provable').attr('checked', 'checked');
+			$('#course').val("EBL 2025");
 
 		}
 	});        

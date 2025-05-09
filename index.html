@@ -19,7 +19,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <style>
-<style>
     /* Increased base font sizes */
     body {
         font-size: 16px; /* Increased from browser default (usually 16px) */
@@ -166,7 +165,7 @@
                     <option value="conjecture-level2">Conjectures to Prove or Refute - Level 2</option>
                     <option value="conjecture-level3">Conjectures to Prove or Refute - Level 3</option>
                     <option value="conjecture-level4">Conjectures to Prove or Refute - Level 4</option> -->
-                    <option value="EBL-preset" selected="selected"> EBL Preset</option>
+                    <option value="EBL-preset"> EBL Preset</option>
                   </select>
                 </div>
               </div>
@@ -189,7 +188,7 @@
               </div>
               <div class="col d-flex justify-content-end">
                 <div class="w-50">
-                  <input id="num_exercises" class="form-control" type="text">
+                  <input id="num_exercises" class="form-control" type="number" min="1" max="10" step="1">
                 </div>
               </div>
             </div>
