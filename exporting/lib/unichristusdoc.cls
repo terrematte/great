@@ -7,7 +7,7 @@
 \ProvidesClass{unichristusdoc}[2020/12/08 UNICHRISTUS Exercise List]
 
 % \newcommand{\headlineolor}{\normalcolor}
-\LoadClass[onecolumn, a4paper]{article} %% this template is based on the article tamplate. 
+\LoadClass[onecolumn, a4paper]{article} %% This template is based on the article template. 
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \definecolor{slcolor}{HTML}{FFFFFF}
@@ -18,7 +18,7 @@
 \DeclareOption*{\PassOptionToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 
-\newcommand{\university}{IMD Instituto Metrópole Digital}
+\newcommand{\university}{EBL: Encontro Brasileiro de Lógica}
 
 \RequirePackage{graphicx}
 \RequirePackage{anyfontsize}
@@ -27,88 +27,85 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  Creating the header of the document.
 %%  This header is composed by a table with the information about the institution,
-%%  course, student and others.
+%%  course, student, and others.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\makeheader}{
-
     \begin{table}
         \fontsize{0.38cm}{0.5cm}\selectfont 
         \begin{tabular}{|l|p{11.7cm}|p{4cm}|}
         \hline
-        \multirow{6}{*}{\includegraphics[scale=0.11]{images/imd_logo.png}} & \multicolumn{2}{l|}{\textbf{\university}} \\ \cline{2-3} 
-                & \textbf{Disciplina:} \course{} & \textbf{Código:} \codeCourse{}             \\ \cline{2-3} 
-                & \multicolumn{2}{l|}{\textbf{Professor(a):} \prof{}}                 \\ \cline{2-3} 
-                & \multicolumn{2}{l|}{\textbf{Semestre:} \semester{}}                     \\ \cline{2-3} 
-                & \textbf{Discente:} \student{}                  & \textbf{Matrícula:} \registration{}          \\ \cline{2-3} 
-                & \multicolumn{2}{l|}{\textbf{Curso:} \graduate{}}                        \\ \hline
+        \multirow{6}{*}{\includegraphics[scale=0.11]{images/XXI_ebl.png}} & \multicolumn{2}{l|}{\textbf{\university}} \\ \cline{2-3} 
+                & \textbf{Course:} \course{} & \textbf{Code:} \codeCourse{}             \\ \cline{2-3} 
+                & \multicolumn{2}{l|}{\textbf{Professor:} \prof{}}                 \\ \cline{2-3} 
+                & \multicolumn{2}{l|}{\textbf{Semester:} \semester{}}                     \\ \cline{2-3} 
+                & \textbf{Student:} \student{}                  & \textbf{Student ID:} \registration{}          \\ \cline{2-3} 
+                & \multicolumn{2}{l|}{\textbf{Degree Program:} \graduate{}}                        \\ \hline
         \end{tabular}
-        \end{table}
+    \end{table}
 
-        \fontsize{0.38cm}{0.5cm}\selectfont 
-        \begin{center}
-            \centering{\textbf{\theme{}}}
-        \end{center}
+    \fontsize{0.38cm}{0.5cm}\selectfont 
+    \begin{center}
+        \centering{\textbf{\theme{}}}
+    \end{center}
 }
 
 
 \newcommand{\points}[1]{
     \fontsize{0.38cm}{0.1cm}\selectfont 
     \fontfamily{lmr}
-    \textbf{(#1 pontos)}
+    \textbf{(#1 points)}
 }
 
 \RequirePackage{amssymb}
 \RequirePackage{lmodern}
 \RequirePackage{enumitem}
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Creating the instructions of the document.
-%  This instructions are based on the pattern of exercise list UNICHRISTUS.
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Creating the instructions of the document.
+%%  These instructions follow the UNICHRISTUS exercise list pattern.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\makeinstructions}
 {
     \fontsize{0.38cm}{0.2cm}\selectfont 
-    \textbf{\textcolor{red}{Leia as Instruções:}} 
-
+    \textbf{\textcolor{red}{Read the Instructions:}} 
 
     \fontfamily{lmss}
     \fontsize{0.35cm}{0.2cm}\selectfont 
     \newenvironment{instlist}
     {
         \renewcommand{\labelitemi}{\color{black}$\bullet$}\bfseries
-    \begin{itemize}\setlength\itemsep{0em}}
+        \begin{itemize}\setlength\itemsep{0em}}
     {\end{itemize}}   
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% This part of code was modified from template of exercise list of Níckolas Alves
+%% This part of the code was adapted from the exercise list template by Níckolas Alves
 %% Link: https://www.overleaf.com/latex/templates/lista-de-exercicios/pncrythxtyhj
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcounter{prob}
 \newcounter{subprob}
 \renewcommand{\thesubprob}{\alph{subprob}}
 
-\newcommand{\problem}{\setcounter{subprob}{0} \stepcounter{prob} \par \medskip \noindent \textbf{Questão~\theprob \ }}
+\newcommand{\problem}{\setcounter{subprob}{0} \stepcounter{prob} \par \medskip \noindent \textbf{Question~\theprob \ }}
 
-\newcommand{\answer}{\par \medskip \noindent \textit{Resposta \ }}
+\newcommand{\answer}{\par \medskip \noindent \textit{Answer \ }}
 
 \newcommand{\finalanswer}[1]{
-	\begin{center} 
-    	{\renewcommand{\arraystretch}{1.5}
-		\renewcommand{\tabcolsep}{0.2cm} 
-    	\begin{tabular}{|c|} 
-    		\hline 
-        	$ \displaystyle #1 $  \\ 
-        	\hline 
-    	\end{tabular}} 
-   	\end{center}}
+    \begin{center} 
+        {\renewcommand{\arraystretch}{1.5}
+        \renewcommand{\tabcolsep}{0.2cm} 
+        \begin{tabular}{|c|} 
+            \hline 
+            $ \displaystyle #1 $  \\ 
+            \hline 
+        \end{tabular}} 
+    \end{center}}
 
 \newcommand{\subproblem}{\stepcounter{subprob} \par \smallskip \noindent \quad \textit{(\thesubprob) \ }}
 
-\newcommand{\subanswer}{\par \smallskip \noindent \quad \textit{Resposta \ }}
+\newcommand{\subanswer}{\par \smallskip \noindent \quad \textit{Answer \ }}
 
 \newcommand{\option}{\item[$\square$]}
 \newcommand{\thisone}{\item[$\blacksquare$]}
 
 \newenvironment{subitemize}{\begin{itemize}}{\end{itemize}}
-

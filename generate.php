@@ -264,7 +264,7 @@ $decoded = json_decode($jsonInput, true);
 
 if ($decoded === null) {
     $decoded = [
-        'num_exercises' => 10,
+        'num_exercises' => 1,
         'restrictions' => ['same_proportion'],
         'num_premises' => 2,
         'conectives' => ['and', 'or', 'not'],

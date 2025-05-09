@@ -492,6 +492,25 @@ $('#tasktype').change(function()
 			$('#premise_contingent').prop('checked', true);
 			$('#refutable_provable').attr('checked', 'checked');
 		}		
+		if(option == "EBL-preset"){
+			$('#code').val('EBL Preset');
+			$('#num_exercises').val('10');
+			$('#atoms').val('P, Q, R, S ,T');
+			$('#not').prop('checked', true);
+			$('#or').prop('checked', true);
+			$('#and').prop('checked', true);
+			$('#imp').prop('checked', true);
+			$('#biimp').prop('checked', true);
+			$('#compl_min').val('2');
+			$('#compl_max').val('3');
+			$('#num_premises').val('2');
+			$('#relevant').prop('checked', true);
+			$('#same_proportion').prop('checked', true);
+			$('#no_superfluous').prop('checked', true);
+			$('#premise_contingent').prop('checked', true);
+			$('#refutable_provable').attr('checked', 'checked');
+
+		}
 	});        
 
 

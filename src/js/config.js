@@ -1,13 +1,15 @@
-var students = ["werewolf",
-		"caiocesarms",
-		"carine-cad",
-		"ceac13",
-		"diego.hdo",
-		"diegomuniz",
-		"dilberto",
-		"lroktu",
-		"duartefq",
-		"tolkiendili"];
+// var students = ["werewolf",
+// 		"caiocesarms",
+// 		"carine-cad",
+// 		"ceac13",
+// 		"diego.hdo",
+// 		"diegomuniz",
+// 		"dilberto",
+// 		"lroktu",
+// 		"duartefq",
+// 		"tolkiendili"];
+
+var students = ["ebl-test"]
 
 var students_fullname = students; 		
 

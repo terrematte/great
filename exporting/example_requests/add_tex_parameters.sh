@@ -1,13 +1,13 @@
 echo '{
     "convert_to": "tex",
     "parameters": {
-        "list_students": ["Mario", "Luigy", "Wario"],
-        "professor": "Bowser",
-        "course": "Mario Kart Introduction",
+        "list_students": ["Hilbert", "Gentzen", "Newton"],
+        "professor": "Aristotles",
+        "course": "Introduction to Logic",
         "semester": "2025.1",
-        "code": "IMD1324",
-        "graduate": "Tecnologia da Informação",
-        "titulo": "Lista de exercícios 1"
+        "code": "SBL101",
+        "graduate": "Logic",
+        "titulo": "Homework 1"
     }
 }' > temp.json
 

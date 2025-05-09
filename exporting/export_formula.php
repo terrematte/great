@@ -1,22 +1,21 @@
 <?php
 header('Content-Type: application/json');
 
-$valid_types    = ['tex', 'utf8'];
+$valid_types = ['tex', 'utf8'];
 
 function logAndReturnError($message, $data = null) {
     $logFile = "error_log.txt";
 
-    $logMessage = '[' . date('Y-m-d H:i:s') . '] ' . $message; // Save to personalized log
+    $logMessage = '[' . date('Y-m-d H:i:s') . '] ' . $message;
     error_log("Error: " . $message);
 
     if ($data !== null) {
         $logMessage2 = "\n[" . date('Y-m-d H:i:s') . '] JSON Request: ' . json_encode($data);
         $logMessage .= $logMessage2;
-        // error_log("Full request data: " . json_encode($data)); // Dont think spamming with error messages in terminal helps
         error_log("Check exporting/error_log.txt file for more details");
     }
 
-    file_put_contents($logFile, $logMessage . PHP_EOL, FILE_APPEND); // Save to personalized log
+    file_put_contents($logFile, $logMessage . PHP_EOL, FILE_APPEND);
 
     die(
         json_encode([
@@ -27,15 +26,6 @@ function logAndReturnError($message, $data = null) {
 }
 
 function convertSymbolsToUnicode($text) {
-    // $replacements = [
-    //     '&'     => '∧',
-    //     '|'     => '∨',
-    //     '!'     => '¬',
-    //     '<->'   => '↔',
-    //     '->'    => '→',
-    //     '='     => '≡',
-    // ];
-
     $replacements = [
         '&'     => '\u2227',  // AND (∧)
         '|'     => '\u2228',  // OR (∨)
@@ -53,14 +43,14 @@ function convertSymbolsToUnicode($text) {
 }
 
 function jsonToUtf8($exercises) {
-    $output = "Lista de Exercicios\n\n";
+    $output = "Exercise List\n\n";
 
     foreach ($exercises['valid'] as $index => $exercise) {
-        $output .= "Exercicio " . ($index + 1) . ":\n";
+        $output .= "Exercise " . ($index + 1) . ":\n";
         foreach ($exercise['premises'] as $i => $premise) {
-            $output .= "  Premissa " . ($i + 1) . ": " . convertSymbolsToUnicode($premise) . "\n";
+            $output .= "  Premise " . ($i + 1) . ": " . convertSymbolsToUnicode($premise) . "\n";
         }
-        $output .= "  Conclusao: " . convertSymbolsToUnicode($exercise['conclusion']) . "\n\n";
+        $output .= "  Conclusion: " . convertSymbolsToUnicode($exercise['conclusion']) . "\n\n";
     }
 
     return $output;
@@ -92,14 +82,14 @@ function convertSymbolsToLatex($text) {
     return strtr($text, $replacements);
 }
 
-function jsonToTex($exercises, $course, $professor, $semester, $code, $registration, $student, $graduate, $titulo) {
+function jsonToTex($exercises, $course, $professor, $semester, $code, $registration, $student, $graduate, $title) {
     $imports = "
     \\documentclass{lib/unichristusdoc}\n
     \\usepackage{amsmath}\n
     \\usepackage[utf8]{inputenc}\n
-    \\usepackage[portuguese]{babel}\n";
+    \\usepackage[english]{babel}\n";
 
-    $cabecalho = "
+    $header = "
     \\def\\course{" . $course . "}\n
     \\def\\prof{" . $professor . "}\n
     \\def\\semester{" . $semester . "}\n
@@ -107,9 +97,9 @@ function jsonToTex($exercises, $course, $professor, $semester, $code, $registrat
     \\def\\registration{" . $registration . "}\n
     \\def\\student{" . $student . "}\n
     \\def\\graduate{" . $graduate . "}\n
-    \\def\\theme{" . $titulo . "}\n";
+    \\def\\theme{" . $title . "}\n";
 
-    $instrucoes = "
+    $instructions = "
     \\makeheader\n
     \\fbox{\n
     \\parbox{\\textwidth}{\n
@@ -117,9 +107,9 @@ function jsonToTex($exercises, $course, $professor, $semester, $code, $registrat
     \\makeinstructions\n
     {\n
     \\begin{instlist}\n
-    \\item Preencha o cabeçalho da folha pergunta com seus dados.\n
-    \\item Todas as folhas respostas devem conter o nome a a matrícula do aluno.\n
-    \\item O preenchimento das respostas deve ser feito utilizando caneta (preta ou azul).\n
+    \\item Fill out the question sheet header with your details.\n
+    \\item All answer sheets must contain the student's name and ID.\n
+    \\item Answers must be filled out using a pen (black or blue).\n
     \\end{instlist}\n
     }\n
     \\end{minipage}\n
@@ -127,15 +117,14 @@ function jsonToTex($exercises, $course, $professor, $semester, $code, $registrat
     }\n";
     
     $latexContent  = $imports;
-    $latexContent .= $cabecalho;
+    $latexContent .= $header;
     $latexContent .= "\\begin{document}\n";
-    $latexContent .= $instrucoes;
+    $latexContent .= $instructions;
 
-    # Add $jsonData['exercises']['invalid'] to mess with the students?
     foreach (array_merge($exercises['valid']) as $exercise) {
         $latexContent .= "\\vspace{1cm}";
         $latexContent .= "\\problem ";
-        $latexContent .= "Verifique se $ " . convertSymbolsToLatex($exercise['conclusion']) . " $ pode ser concluído partindo das premisas: \n\n";
+        $latexContent .= "Verify if $ " . convertSymbolsToLatex($exercise['conclusion']) . " $ can be concluded from the premises: \n\n";
         foreach ($exercise['premises'] as $premise) {
             $latexContent .= "\\subproblem $ " . convertSymbolsToLatex($premise) . " $\n\n";
         }
@@ -150,42 +139,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $jsonData = json_decode(file_get_contents('php://input'), true);
 
     if ($jsonData) {
-        // Going to implement soon
         $convert_to_this_type = strtolower($jsonData['convert_to'] ?? 'tex');
 
         if (!in_array($convert_to_this_type, $valid_types)) {
             logAndReturnError('Invalid conversion type ' . $convert_to_this_type, $jsonData);
         }
 
-        $exercises = $jsonData['exercises'] ?? null;  # OMG I TYPED JsonData aaaarrrrgggg
+        $exercises = $jsonData['exercises'] ?? null;
 
         if (!is_array($exercises) || empty($exercises)) {
-            logAndReturnError('Exercises property is missing or empty ' . $exercises, $jsonData);
+            logAndReturnError('Exercises property is missing or empty', $jsonData);
         }
 
         $parameters = $jsonData['parameters'] ?? [];
 
-        // error_log(json_encode($jsonData));
-
-        $course       = $parameters['course'] ?? "Fundamentos de Matemática da Computação IV";
+        $course       = $parameters['course'] ?? "Fundamentals of Computer Mathematics IV";
         $professor    = $parameters['professor'] ?? "";
         $semester     = $parameters['semester'] ?? "2025.1";
         $code         = $parameters['code'] ?? "IMD0000";
         $registration = $parameters['registration'] ?? "";
         
-        $list_students= $parameters['list_students'] ?? [""];
+        $list_students = $parameters['list_students'] ?? [""];
         if (!is_array($list_students) || empty($list_students) || $list_students === [""]) {
             $list_students = [" "];
-        } // Protection against random values for parameter
+        }
 
-        $graduate     = $parameters['graduate'] ?? "Bacharel em Tecnologia da Informação";
-        $titulo       = $parameters['titulo'] ?? "Insira o nome aqui";
-
-        // error_log("Parameters" . json_encode($parameters));
-
-        $source_code_of_file    = "";
-        $file_name              = "output";
-        $compiled_file_name     = 'output.pdf';
+        $graduate     = $parameters['graduate'] ?? "Bachelor in Information Technology";
+        $title       = $parameters['title'] ?? "Insert title here";
 
         $listof_compiled_pdfs = [];
         $listof_source_code_of_file = [];
@@ -198,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $exercises_per_student  = intdiv(count($valid_exercises), $num_students);
             $remaining_exercises    = count($valid_exercises) % $num_students; 
 
-            $distributed_exercises  = array_slice($valid_exercises, 0, $exercises_per_student * $num_students); // Keep only divisible exercises
+            $distributed_exercises  = array_slice($valid_exercises, 0, $exercises_per_student * $num_students);
             $chunked_exercises      = array_chunk($distributed_exercises, $exercises_per_student);
 
             foreach ($list_students as $index => $student) {
@@ -209,10 +189,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         foreach ($list_students as $student) {
-            if      ($convert_to_this_type === "tex") {
-                // error_log("tex Conversion Type for student: " . $student);
-                
-                $source_code_of_file = jsonToTex($exercises_for_student[$student], $course, $professor, $semester, $code, $registration, $student, $graduate, $titulo);
+            if ($convert_to_this_type === "tex") {
+                $source_code_of_file = jsonToTex($exercises_for_student[$student], $course, $professor, $semester, $code, $registration, $student, $graduate, $title);
                 $listof_source_code_of_file[] = $source_code_of_file;
                 
                 $source_code_file_name = 'exercises_' . $student . '.tex';
@@ -222,7 +200,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exec("pdflatex -interaction=nonstopmode -output-directory=" . escapeshellarg(dirname(__FILE__)) . " -jobname=" . escapeshellarg(pathinfo($compiled_file_name, PATHINFO_FILENAME)) . " " . escapeshellarg($source_code_file_name));
                 
                 if (file_exists($compiled_file_name)) {
-                    // error_log("Compiled PDF found: " . $compiled_file_name);
                     $compiled_base64_content = base64_encode(file_get_contents($compiled_file_name));
                     
                     $padding = strlen($compiled_base64_content) % 4;
@@ -235,8 +212,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $listof_compiled_pdfs[] = null;
                 }
             }
-            elseif  ($convert_to_this_type === "utf8") {
-                $listof_source_code_of_file[] = jsonToUtf8($exercises_for_student[$student]);;
+            elseif ($convert_to_this_type === "utf8") {
+                $listof_source_code_of_file[] = jsonToUtf8($exercises_for_student[$student]);
             }
         }        
 
@@ -262,20 +239,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'message'   => 'Compiled file generation failed for all students'
             ]);
         }
-
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Invalid JSON data']);
     }
 
-    // error_log("Cleanup");
     $command = "make -C " . escapeshellarg(dirname(__FILE__)) . " clean";
     exec($command, $_, $ret_val);
-
 } else {
     echo json_encode([
         'status'    => 'error', 
         'message'   => 'Only POST requests are allowed'
     ]);
 }
-
 ?>

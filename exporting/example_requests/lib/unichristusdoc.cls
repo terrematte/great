@@ -18,7 +18,7 @@
 \DeclareOption*{\PassOptionToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 
-\newcommand{\university}{Unichristus: Centro Universitário Christus}
+\newcommand{\university}{SBL: Encontro Brasileiro de Lógica}
 
 \RequirePackage{graphicx}
 \RequirePackage{anyfontsize}
